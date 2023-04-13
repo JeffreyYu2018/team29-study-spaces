@@ -1,0 +1,25 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+}
+
+/* make the h1 huge */
+h1 {
+    font-size: 5rem;
+}
+
+a {
+    text-decoration: none;
+    color: #000;
+    font-size: 1.5rem;
+}
+
+.welcome{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background-color: #ffffff;
+}
