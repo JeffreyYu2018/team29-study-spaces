@@ -67,24 +67,33 @@ let coord // locations of the images based on general points
 let imgCoord = [] // specific offsets of images based on coord
 
 // settings of the timers and progress management 
-let counter=0 // keeps track of the progress bar
+let counter = 0 // keeps track of the progress bar
 let timer = false // is the cursor hovering over an area that can be selected?
 let myInterval  // function for updating the progress arc
 
 // settings of study space information
-headers = ['noise', 'convenience', 'distance']
-values = [[1,4,3],[2,2,4],[4,1,1],[3,3,2]]
+let table
+let n_stats = 3 // number of statistics
+let headers 
+let values
 
 // Initialize images
 function preload() {
-  img_top_left = loadImage('assets/bass.jpg')
-  img_top_right = loadImage('assets/ceid.jpg')
-  img_bot_left = loadImage('assets/hq131.jpg')
-  img_bot_right = loadImage('assets/sss410.jpg')
-  table = loadTable("studyspaces.csv", "csv", "header");
+  // load study space information
+  table = loadTable("data.csv", "csv", "header");
 }
 
 function setup() {
+  // load images
+  img_top_left = loadImage('assets/' + table.getString(0,4))
+  img_top_right = loadImage('assets/' + table.getString(1,4))
+  img_bot_left = loadImage('assets/' + table.getString(2,4))
+  img_bot_right = loadImage('assets/' + table.getString(3,4))
+
+  // load study space information
+  headers = table.columns
+  values = table.getArray()
+
   createCanvas(windowWidth, windowHeight);
   coord = [[0,0],[0,windowHeight/2],[windowWidth/2,0],[windowWidth/2,windowHeight/2]] // coordinates of quadrants
   imgs = [img_top_left,img_top_right,img_bot_left,img_bot_right]
@@ -114,7 +123,12 @@ function draw() {
     fill(c)
     rect(coord[i][0], coord[i][1], windowWidth/2, windowHeight/2);
 
-    // fill in quadrant with relevant values
+    // fill in quadrant with data (title, star chart, image)
+    c = color('black')
+    fill(c)
+    textAlign(CENTER);
+    text(table.getString(i,0), imgX + imgWidth / 2, imgY + imgHeight + 15)
+
     drawStarCharts(headers, values[i], quadX, quadY)
     drawStudySpaceImages(imgs[i], imgX, imgY)
   }
@@ -217,17 +231,20 @@ function updateProgress(imgCoord) {
 }
 
 function drawStarCharts(headers, values, originX, originY) {
-  for (let i = 0; i < values.length; i++) {
+  for (let i = 0; i < n_stats; i++) { 
     c = color('black')
     fill(c)
     textOffset = 30
     textAlign(RIGHT, TOP)
     textSize(30)
-    text(headers[i], originX + windowWidth*3/8 - textOffset, originY + windowHeight / 4 + i * 30 - 15)
+    // assumes the middle values of the CSV are the statistics, so skips 1 (the original space)
+    text(headers[i+1], originX + windowWidth*3/8 - textOffset, originY + windowHeight / 4 + i * 30 - 15)
     barMaxLength = 250
     c = color('red')
     fill(c);
-    for (let n = 0; n < values[i]; n++) {
+    
+    // ignore the first space since it's the space
+    for (let n = 0; n < values[i+1]; n++) {
       star(originX + windowWidth*3/8 + 40*n, originY + windowHeight / 4 + i * 30, 7.5, 17.5, 5);
     }
     
