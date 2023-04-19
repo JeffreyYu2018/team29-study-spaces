@@ -1,5 +1,5 @@
 // Adapted from https://p5js.org/examples/interaction-snake-game.html
-//
+// Code for connecting to Kinect
 var host = "cpsc484-03.yale.internal:8888";
 $(document).ready(function() {
   frames.start();
@@ -21,22 +21,13 @@ var frames = {
   },
 
   get_left_wrist_command: function (frame) {
-    var command = null;
-    if (frame.people.length < 1) {
-      return command;
-    }
-
-    // Normalize by subtracting the root (pelvis) joint coordinates
     var pelvis_x = frame.people[0].joints[0].position.x;
     var pelvis_y = frame.people[0].joints[0].position.y;
-    var pelvis_z = frame.people[0].joints[0].position.z;
     var left_wrist_x = (frame.people[0].joints[7].position.x - pelvis_x) * -1;
     var left_wrist_y = (frame.people[0].joints[7].position.y - pelvis_y) * -1;
-    var left_wrist_z = (frame.people[0].joints[7].position.z - pelvis_z) * -1;
 
     cursor_x = left_wrist_x + windowWidth/2
     cursor_y = windowHeight - left_wrist_y
-    return command;
   }
 };
 
@@ -55,28 +46,35 @@ var twod = {
     $('.twod').attr("src", 'data:image/pnjpegg;base64,'+twod.src);
   }
 };
-// the snake is divided into small segments, which are drawn and edited on each 'draw' call
-let numSegments = 10;
-let direction = 'right';
 
-const xStart = 0; //starting x coordinate for snake
-const yStart = 250; //starting y coordinate for snake
-const diff = 10;
+// DECLARE VARIABLES
+let cursor_x = 0, cursor_y = 0  // cursor tracks the left wrist of the person on the Kinect
 
-let cursor_x = 0
-let cursor_y = 0
+// settings of the refresh and redo buttons on the display
 let refreshX, refreshY, redoX, redoY
-let refreshWidth, refreshHeight, redoWidth, redoHeight
+let refreshWidth = 250, refreshHeight = 80, redoWidth = 250, redoHeight = 80
 
-let img_top_left,img_top_right,img_bot_left,img_bot_right
-let imgWidth=350,imgHeight=250
-let coord
-let counter=0
-let timer=false
-let noises=[],conveniences=[],distances=[]
-let myInterval
-let imgCoord = []
+// settings of the Your Matches box at the top
+let YourMatchesWidth = 500, YourMatchesHeight = 100
 
+let vertOffset = 40 // general variable to describe the offset of images from the borders
+
+// settings of the images in each quadrant
+let img_top_left,img_top_right,img_bot_left,img_bot_right // links to the image objects holding the pictures
+let imgWidth = 350, imgHeight = 250  // image size dimensions
+let coord // locations of the images based on general points
+let imgCoord = [] // specific offsets of images based on coord
+
+// settings of the timers and progress management 
+let counter=0 // keeps track of the progress bar
+let timer = false // is the cursor hovering over an area that can be selected?
+let myInterval  // function for updating the progress arc
+
+// settings of study space information
+headers = ['noise', 'convenience', 'distance']
+values = [[1,4,3],[2,2,4],[4,1,1],[3,3,2]]
+
+// Initialize images
 function preload() {
   img_top_left = loadImage('assets/bass.jpg')
   img_top_right = loadImage('assets/ceid.jpg')
@@ -85,53 +83,47 @@ function preload() {
   table = loadTable("studyspaces.csv", "csv", "header");
 }
 
-headers = ['noise', 'convenience', 'distance']
-values = [[1,4,3],[2,2,4],[4,1,1],[3,3,2]]
-
 function setup() {
   createCanvas(windowWidth, windowHeight);
   coord = [[0,0],[0,windowHeight/2],[windowWidth/2,0],[windowWidth/2,windowHeight/2]] // coordinates of quadrants
   imgs = [img_top_left,img_top_right,img_bot_left,img_bot_right]
-  // setup image coords
+  // setup specific image coords
   for (let i = 0; i < 4; i++) {
     quadX = coord[i][0]
     quadY = coord[i][1]
     imgCoord.push([quadX + windowWidth/32, quadY + windowHeight*3/16])
   }
-  refreshWidth = 250
-  refreshHeight = 80
-  redoWidth = 250
-  redoHeight = 80
-  vertOffset = 40
 }
 
 function draw() {
-
   background(102);
   let c = color('red');
-  // fill(c);
   for (let i = 0; i < 4; i++) {
+    // generate image coordinates
     quadX = coord[i][0]
     quadY = coord[i][1]
     img = imgs[i]
     imgX = quadX + windowWidth/32
     imgY = quadY + windowHeight*3/16
+
+    // draw quadrants with grey outlines to divide up the screen
     stroke('#222222');
     strokeWeight(4);
     c = color('white')
     fill(c)
     rect(coord[i][0], coord[i][1], windowWidth/2, windowHeight/2);
-    c = color('red')
+
+    // fill in quadrant with relevant values
     drawBarCharts(headers, values[i], quadX, quadY)
     drawStudySpaceImages(imgs[i], imgX, imgY)
   }
+
+  // update cursor accordingly
   updateProgress(imgCoord)
 
-  // Your Matches
+  // draw Your Matches box
   c = color('#D3D3D3')
   fill(c);
-  YourMatchesWidth = 500
-  YourMatchesHeight = 100
   rect(windowWidth/2-YourMatchesWidth/2, 0, YourMatchesWidth, YourMatchesHeight)
   textAlign(CENTER);
   textSize(30);
@@ -139,10 +131,9 @@ function draw() {
   fill(c)
   text('Your Matches', windowWidth/2, YourMatchesHeight/2)
 
-  // Refresh
+  // Draw refresh button
   c = color('green')
   fill(c);
-
   refreshX = windowWidth*3/4
   refreshY = vertOffset
   rect(refreshX, refreshY, refreshWidth, refreshHeight, 20)
@@ -152,7 +143,7 @@ function draw() {
   fill(c)
   text('Refresh', windowWidth*3/4+refreshWidth/2, refreshHeight/2+vertOffset)
 
-  // Redo Quiz 
+  // Draw Redo Quiz button
   redoX = windowWidth-(windowWidth*3/4)-redoWidth
   redoY = vertOffset
   c = color('pink')
@@ -164,20 +155,14 @@ function draw() {
   fill(c)
   text('Redo Quiz', windowWidth/4-redoWidth/2, redoHeight/2+vertOffset)
 
-
+  // Draw progress cursor
   stroke(255);
   c = color('red')
   fill(c);
-  // WITH MOUSE
   arc(cursor_x, cursor_y, 80, 80, 0, (counter / 5) * QUARTER_PI);
   c = color('black')
   fill(c)
   ellipse(cursor_x, cursor_y, 50, 50)
-  // img_top_left.mouseOver(changeGray)
-
-
-  // DRAWING COMMAND WITH KINECT DATA
-  
 }
 
 function drawStudySpaceImages(img, imgX, imgY) {
@@ -188,7 +173,29 @@ function updateProgress(imgCoord) {
   let imgX_0 = imgCoord[0][0], imgX_1 = imgCoord[1][0], imgX_2 = imgCoord[2][0], imgX_3 = imgCoord[3][0]
   let imgY_0 = imgCoord[0][1], imgY_1 = imgCoord[1][1], imgY_2 = imgCoord[2][1], imgY_3 = imgCoord[3][1]
 
-  if ((cursor_x > imgX_0 && cursor_x < (imgX_0 + imgWidth) && cursor_y > imgY_0 && cursor_y < (imgY_0 + imgHeight)) ||
+  // Navigate amongst the page based on status of progress counter
+  if (counter > 40) {
+    // EJ'S CODE TO CHANGE PAGES GOES HERE
+    // Check where the cursor is pointed
+    if (cursor_x > imgX_0 && cursor_x < (imgX_0 + imgWidth) && cursor_y > imgY_0 && cursor_y < (imgY_0 + imgHeight)) {
+      // NAVIGATE TO IMAGE ZERO (TOP LEFT)
+    } else if (cursor_x > imgX_1 && cursor_x < (imgX_1 + imgWidth) && cursor_y > imgY_1 && cursor_y < (imgY_1 + imgHeight)) {
+      // NAVIGATE TO IMAGE ONE (TOP RIGHT)
+    } else if (cursor_x > imgX_2 && cursor_x < (imgX_2 + imgWidth) && cursor_y > imgY_2 && cursor_y < (imgY_2 + imgHeight)) {
+      // NAVIGATE TO IMAGE TWO (BOTTOM LEFT)
+    } else if (cursor_x > imgX_3 && cursor_x < (imgX_3 + imgWidth) && cursor_y > imgY_3 && cursor_y < (imgY_3 + imgHeight)) {
+      // NAVIGATE TO IMAGE THREE (BOTTOM RIGHT)
+    } else if (cursor_x > refreshX && cursor_x < (refreshX + refreshWidth) && cursor_y > refreshY && cursor_y < (refreshY + refreshHeight)) {
+      // REFRESH RESULTS AND DISPLAY NEW ONES
+    } else if (cursor_x > redoX && cursor_x < (redoX + redoWidth) && cursor_y > redoY && cursor_y < (redoY + redoHeight)) {
+      // RESTART THE QUIZ FROM BEGINNING
+    }
+    // Cleanup
+    clearInterval(myInterval)
+    timer = false
+    counter = 0
+  }
+  else if ((cursor_x > imgX_0 && cursor_x < (imgX_0 + imgWidth) && cursor_y > imgY_0 && cursor_y < (imgY_0 + imgHeight)) ||
     (cursor_x > imgX_1 && cursor_x < (imgX_1 + imgWidth) && cursor_y > imgY_1 && cursor_y < (imgY_1 + imgHeight)) ||
     (cursor_x > imgX_2 && cursor_x < (imgX_2 + imgWidth) && cursor_y > imgY_2 && cursor_y < (imgY_2 + imgHeight)) ||
     (cursor_x > imgX_3 && cursor_x < (imgX_3 + imgWidth) && cursor_y > imgY_3 && cursor_y < (imgY_3 + imgHeight)) ||
@@ -210,16 +217,12 @@ function updateProgress(imgCoord) {
 
 function drawBarCharts(headers, values, originX, originY) {
   for (let i = 0; i < values.length; i++) {
-    //place years
     c = color('black')
     fill(c)
     textOffset = 30
     textAlign(RIGHT, TOP)
     textSize(30)
     text(headers[i], originX + windowWidth*3/8 - textOffset, originY + windowHeight / 4 + i * 30)
-    //pull numbers
-    // noises[i] = table.getString(i, 'noise')
-    //draw graph
     barMaxLength = 250
     c = color('red')
     fill(c);
