@@ -1,6 +1,7 @@
 // Adapted from https://p5js.org/examples/interaction-snake-game.html
 // Code for connecting to Kinect
-var host = "cpsc484-03.yale.internal:8888";
+var host = "cpsc484-03.yale.internal:8888/demo";
+// var host = "localhost:4444";
 $(document).ready(function() {
   frames.start();
   twod.start();
@@ -114,7 +115,7 @@ function draw() {
     rect(coord[i][0], coord[i][1], windowWidth/2, windowHeight/2);
 
     // fill in quadrant with relevant values
-    drawBarCharts(headers, values[i], quadX, quadY)
+    drawStarCharts(headers, values[i], quadX, quadY)
     drawStudySpaceImages(imgs[i], imgX, imgY)
   }
 
@@ -215,17 +216,36 @@ function updateProgress(imgCoord) {
   } 
 }
 
-function drawBarCharts(headers, values, originX, originY) {
+function drawStarCharts(headers, values, originX, originY) {
   for (let i = 0; i < values.length; i++) {
     c = color('black')
     fill(c)
     textOffset = 30
     textAlign(RIGHT, TOP)
     textSize(30)
-    text(headers[i], originX + windowWidth*3/8 - textOffset, originY + windowHeight / 4 + i * 30)
+    text(headers[i], originX + windowWidth*3/8 - textOffset, originY + windowHeight / 4 + i * 30 - 15)
     barMaxLength = 250
     c = color('red')
     fill(c);
-    rect(originX + windowWidth*3/8, originY + windowHeight / 4 + i * 30, barMaxLength - values[i] * 50, 30)
+    for (let n = 0; n < values[i]; n++) {
+      star(originX + windowWidth*3/8 + 40*n, originY + windowHeight / 4 + i * 30, 7.5, 17.5, 5);
+    }
+    
   }
+}
+
+// taken from https://p5js.org/examples/form-star.html
+function star(x, y, radius1, radius2, npoints) {
+  let angle = TWO_PI / npoints;
+  let halfAngle = angle / 2.0;
+  beginShape();
+  for (let a = 0; a < TWO_PI; a += angle) {
+    let sx = x + cos(a) * radius2;
+    let sy = y + sin(a) * radius2;
+    vertex(sx, sy);
+    sx = x + cos(a + halfAngle) * radius1;
+    sy = y + sin(a + halfAngle) * radius1;
+    vertex(sx, sy);
+  }
+  endShape(CLOSE);
 }
