@@ -221,19 +221,24 @@ function updateProgress(imgCoord) {
     if (mouseX > imgX_0 && mouseX < (imgX_0 + imgWidth) && mouseY > imgY_0 && mouseY < (imgY_0 + imgHeight)) {
       // NAVIGATE TO IMAGE ZERO (TOP LEFT)
       localStorage.setItem('finalSpace', JSON.stringify(idealspaces[0]))
+      // get rid of the backupspaces if they exist
+      localStorage.removeItem('backupspaces')
       // open A5/info.html
       window.location.href = 'A5/info.html'
     } else if (mouseX > imgX_1 && mouseX < (imgX_1 + imgWidth) && mouseY > imgY_1 && mouseY < (imgY_1 + imgHeight)) {
       // NAVIGATE TO IMAGE ONE (TOP RIGHT)
       localStorage.setItem('finalSpace', JSON.stringify(idealspaces[1]))
+      localStorage.removeItem('backupspaces')
       window.location.href = 'A5/info.html'
     } else if (mouseX > imgX_2 && mouseX < (imgX_2 + imgWidth) && mouseY > imgY_2 && mouseY < (imgY_2 + imgHeight)) {
       // NAVIGATE TO IMAGE TWO (BOTTOM LEFT)
       localStorage.setItem('finalSpace', JSON.stringify(idealspaces[2]))
+      localStorage.removeItem('backupspaces')
       window.location.href = 'A5/info.html'
     } else if (mouseX > imgX_3 && mouseX < (imgX_3 + imgWidth) && mouseY > imgY_3 && mouseY < (imgY_3 + imgHeight)) {
       // NAVIGATE TO IMAGE THREE (BOTTOM RIGHT)
       localStorage.setItem('finalSpace', JSON.stringify(idealspaces[3]))
+      localStorage.removeItem('backupspaces')
       window.location.href = 'A5/info.html'
     } else if (mouseX > refreshX && mouseX < (refreshX + refreshWidth) && mouseY > refreshY && mouseY < (refreshY + refreshHeight)) {
       // REFRESH RESULTS AND DISPLAY NEW ONES
@@ -243,6 +248,7 @@ function updateProgress(imgCoord) {
       window.location.href = 'index.html'
       // TODO: make sure i'm grabbing top 8 instead of 4
     } else if (mouseX > redoX && mouseX < (redoX + redoWidth) && mouseY > redoY && mouseY < (redoY + redoHeight)) {
+      localStorage.removeItem('backupspaces')
       // RESTART THE QUIZ FROM BEGINNING
       window.location.href = 'questions.html'
     }
@@ -309,6 +315,3 @@ function star(x, y, radius1, radius2, npoints) {
   endShape(CLOSE);
 }
 
-$(window).unload(function() {
-  localStorage.removeItem('backupspaces')
-});
