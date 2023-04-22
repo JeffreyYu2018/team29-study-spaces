@@ -194,16 +194,23 @@ function updateProgress(imgCoord) {
     // Check where the cursor is pointed
     if (cursor_x > imgX_0 && cursor_x < (imgX_0 + imgWidth) && cursor_y > imgY_0 && cursor_y < (imgY_0 + imgHeight)) {
       // NAVIGATE TO IMAGE ZERO (TOP LEFT)
+      // open A5/info.html
+      window.localtion.href = 'A5/info.html'
     } else if (cursor_x > imgX_1 && cursor_x < (imgX_1 + imgWidth) && cursor_y > imgY_1 && cursor_y < (imgY_1 + imgHeight)) {
       // NAVIGATE TO IMAGE ONE (TOP RIGHT)
+      window.localtion.href = 'A5/info.html'
     } else if (cursor_x > imgX_2 && cursor_x < (imgX_2 + imgWidth) && cursor_y > imgY_2 && cursor_y < (imgY_2 + imgHeight)) {
       // NAVIGATE TO IMAGE TWO (BOTTOM LEFT)
+      window.localtion.href = 'A5/info.html'
     } else if (cursor_x > imgX_3 && cursor_x < (imgX_3 + imgWidth) && cursor_y > imgY_3 && cursor_y < (imgY_3 + imgHeight)) {
       // NAVIGATE TO IMAGE THREE (BOTTOM RIGHT)
+      window.localtion.href = 'A5/info.html'
     } else if (cursor_x > refreshX && cursor_x < (refreshX + refreshWidth) && cursor_y > refreshY && cursor_y < (refreshY + refreshHeight)) {
       // REFRESH RESULTS AND DISPLAY NEW ONES
+      // TODO: make sure i'm grabbing top 8 instead of 4
     } else if (cursor_x > redoX && cursor_x < (redoX + redoWidth) && cursor_y > redoY && cursor_y < (redoY + redoHeight)) {
       // RESTART THE QUIZ FROM BEGINNING
+      window.localtion.href = 'A5/info.html'
     }
     // Cleanup
     clearInterval(myInterval)
