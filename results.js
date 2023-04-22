@@ -58,7 +58,12 @@ let refreshWidth = 250, refreshHeight = 80, redoWidth = 250, redoHeight = 80
 // settings of the Your Matches box at the top
 let YourMatchesWidth = 500, YourMatchesHeight = 100
 
+// settings for vertical offsets
 let vertOffset = 40 // general variable to describe the offset of images from the borders
+let vertOffsetQuad = 140
+
+// settings for horizontal offset
+let horizOffsetQuad = 20
 
 // settings of the images in each quadrant
 let img_top_left,img_top_right,img_bot_left,img_bot_right // links to the image objects holding the pictures
@@ -97,7 +102,7 @@ function setup() {
   values = table.getArray()
 
   createCanvas(windowWidth, windowHeight);
-  coord = [[0,0],[0,windowHeight/2],[windowWidth/2,0],[windowWidth/2,windowHeight/2]] // coordinates of quadrants
+  coord = [[horizOffsetQuad,vertOffsetQuad],[horizOffsetQuad,windowHeight*56/100],[windowWidth/2+horizOffsetQuad/3,vertOffsetQuad],[windowWidth/2+horizOffsetQuad/3,windowHeight*56/100]] // coordinates of quadrants
   imgs = [img_top_left,img_top_right,img_bot_left,img_bot_right]
   // setup specific image coords
   for (let i = 0; i < 4; i++) {
@@ -108,7 +113,7 @@ function setup() {
 }
 
 function draw() {
-  background(102);
+  background(204,204,204);
   let c = color('red');
   for (let i = 0; i < 4; i++) {
     // generate image coordinates
@@ -116,14 +121,12 @@ function draw() {
     quadY = coord[i][1]
     img = imgs[i]
     imgX = quadX + windowWidth/32
-    imgY = quadY + windowHeight*3/16
+    imgY = quadY + windowHeight*1/16
 
     // draw quadrants with grey outlines to divide up the screen
-    stroke('#222222');
-    strokeWeight(4);
     c = color('white')
     fill(c)
-    rect(coord[i][0], coord[i][1], windowWidth/2, windowHeight/2);
+    rect(coord[i][0], coord[i][1], windowWidth/2-1.5*horizOffsetQuad, windowHeight*2/5, 10);
 
     // fill in quadrant with data (title, star chart, image)
     c = color('black')
@@ -139,7 +142,7 @@ function draw() {
   updateProgress(imgCoord)
 
   // draw Your Matches box
-  c = color('#D3D3D3')
+  c = color(204,204,204)
   fill(c);
   rect(windowWidth/2-YourMatchesWidth/2, 0, YourMatchesWidth, YourMatchesHeight)
   textAlign(CENTER);
@@ -158,7 +161,7 @@ function draw() {
   textSize(30);
   c = color('black')
   fill(c)
-  text('Refresh', windowWidth*3/4+refreshWidth/2, refreshHeight/2+vertOffset)
+  text('Refresh', windowWidth*3/4+refreshWidth/2, refreshHeight/2+vertOffset*3/5)
 
   // Draw Redo Quiz button
   redoX = windowWidth-(windowWidth*3/4)-redoWidth
@@ -170,7 +173,7 @@ function draw() {
   textSize(30);
   c = color('black')
   fill(c)
-  text('Redo Quiz', windowWidth/4-redoWidth/2, redoHeight/2+vertOffset)
+  text('Redo Quiz', windowWidth/4-redoWidth/2, redoHeight/2+vertOffset*3/5)
 
   // Draw progress cursor
   stroke(255);
@@ -242,12 +245,13 @@ function updateProgress(imgCoord) {
 function drawStarCharts(headers, values, originX, originY) {
   for (let i = 0; i < n_stats; i++) { 
     c = color('black')
+    noStroke()
     fill(c)
     textOffset = 30
     textAlign(RIGHT, TOP)
     textSize(30)
     // assumes the middle values of the CSV are the statistics, so skips 1 (the original space)
-    text(headers[i+1], originX + windowWidth*3/8 - textOffset, originY + windowHeight / 4 + i * 30 - 15)
+    text(headers[i+1], originX + windowWidth*3/8 - textOffset, originY + (windowHeight / 4 - 2 * vertOffset) + i * 30 - 15)
     barMaxLength = 250
     c = color('red')
     fill(c);
