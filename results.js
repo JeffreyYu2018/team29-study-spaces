@@ -50,8 +50,16 @@ var twod = {
 };
 
 // Grab the ideal study spaces from local storage
-let idealspaces = JSON.parse(localStorage.getItem("ideal"));
+let all8 = JSON.parse(localStorage.getItem("ideal"));
+// set idealspaces as first 4 elements of all8
+let idealspaces = all8.slice(0,4);
+// check if localStorage.getItem("backup") exists, if so, set idealspaces as the backup
+if (localStorage.getItem("backupspaces")) {
+  idealspaces = JSON.parse(localStorage.getItem("backupspaces"));
+}
+let backupspaces = all8.slice(4,8);
 console.log(idealspaces);
+console.log(backupspaces);
 
 // DECLARE VARIABLES
 // let mouseX = 0, mouseY = 0  // cursor tracks the left wrist of the person on the Kinect
@@ -96,7 +104,10 @@ function preload() {
 
 
 function setup() {
-
+  // if idealstudy spaces = null, then load backupspaces
+  if (idealspaces == null) {
+    idealspaces = backupspaces
+  }
   // load images
   img_top_left = loadImage('assets/' + idealspaces[0]['Picture\r'])
   img_top_right = loadImage('assets/' + idealspaces[1]['Picture\r'])
@@ -198,6 +209,10 @@ function drawStudySpaceImages(img, imgX, imgY) {
 function updateProgress(imgCoord) {
   let imgX_0 = imgCoord[0][0], imgX_1 = imgCoord[1][0], imgX_2 = imgCoord[2][0], imgX_3 = imgCoord[3][0]
   let imgY_0 = imgCoord[0][1], imgY_1 = imgCoord[1][1], imgY_2 = imgCoord[2][1], imgY_3 = imgCoord[3][1]
+  // if idealstudy spaces = null, then load backupspaces
+  if (idealspaces == null) {
+    idealspaces = backupspaces
+  }
 
   // Navigate amongst the page based on status of progress counter
   if (counter > 40) {
@@ -222,10 +237,15 @@ function updateProgress(imgCoord) {
       window.location.href = 'A5/info.html'
     } else if (mouseX > refreshX && mouseX < (refreshX + refreshWidth) && mouseY > refreshY && mouseY < (refreshY + refreshHeight)) {
       // REFRESH RESULTS AND DISPLAY NEW ONES
+      idealspaces = null
+      // set the backupspaces
+      localStorage.setItem('backupspaces', JSON.stringify(backupspaces))
+
+      window.location.href = 'index.html'
       // TODO: make sure i'm grabbing top 8 instead of 4
     } else if (mouseX > redoX && mouseX < (redoX + redoWidth) && mouseY > redoY && mouseY < (redoY + redoHeight)) {
       // RESTART THE QUIZ FROM BEGINNING
-      window.location.href = 'A5/info.html'
+      window.location.href = 'questions.html'
     }
     // Cleanup
     clearInterval(myInterval)
