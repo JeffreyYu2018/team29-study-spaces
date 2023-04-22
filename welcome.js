@@ -1,6 +1,6 @@
 // Adapted from https://p5js.org/examples/interaction-snake-game.html
 // Code for connecting to Kinect
-var host = "cpsc484-03.yale.internal:8888/demo";
+var host = "cpsc484-03.yale.internal:8888";
 // var host = "localhost:4444";
 $(document).ready(function() {
   frames.start();
@@ -14,21 +14,22 @@ var frames = {
     var url = "ws://" + host + "/frames";
     frames.socket = new WebSocket(url);
     frames.socket.onmessage = function (event) {
-      var command = frames.get_left_wrist_command(JSON.parse(event.data));
-      if (command !== null) {
-        sendWristCommand(command);
-      }
+      frames.get_left_wrist_command(JSON.parse(event.data));
     }
   },
 
   get_left_wrist_command: function (frame) {
-    var pelvis_x = frame.people[0].joints[0].position.x;
-    var pelvis_y = frame.people[0].joints[0].position.y;
-    var left_wrist_x = (frame.people[0].joints[7].position.x - pelvis_x) * -1;
-    var left_wrist_y = (frame.people[0].joints[7].position.y - pelvis_y) * -1;
-
-    cursor_x = left_wrist_x + windowWidth/2
-    cursor_y = windowHeight - left_wrist_y
+    if (frame.people === undefined || frame.people.length == 0) {
+      console.log("no people in frame")
+    } else {
+      var pelvis_x = frame.people[0].joints[0].position.x;
+      var pelvis_y = frame.people[0].joints[0].position.y;
+      var left_wrist_x = (frame.people[0].joints[7].position.x - pelvis_x) * -1;
+      var left_wrist_y = (frame.people[0].joints[7].position.y - pelvis_y) * -1;
+  
+      cursor_x = (1.5*left_wrist_x) + windowWidth/2
+      cursor_y = windowHeight - (1.5*left_wrist_y)
+    }
   }
 };
 
@@ -49,97 +50,92 @@ var twod = {
 };
 
 // DECLARE VARIABLES
-let cursor_x = 0, cursor_y = 0  // cursor tracks the left wrist of the person on the Kinect
+// let mouseX = 0, mouseY = 0  // cursor tracks the left wrist of the person on the Kinect
+
+// settings of the start button
+let startX, startY
+let startWidth = 250, startHeight = 80
 
 // settings of the timers and progress management 
 let counter = 0 // keeps track of the progress bar
 let timer = false // is the cursor hovering over an area that can be selected?
 let myInterval  // function for updating the progress arc
 
-
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  var myCanvas = createCanvas(windowWidth, windowHeight);
+  myCanvas.parent("welcome");
 }
 
 function draw() {
-  background(102);
-
+  background('white')
   // update cursor accordingly
-  updateProgress(imgCoord)
+  updateProgress()
+
+  // draw welcome message
+  textAlign(CENTER);
+  textSize(50);
+  c = color('black')
+  fill(c)
+  text('Welcome to our Quiz', windowWidth/2, windowHeight/2)
+
+  // draw instructions message
+  textAlign(CENTER);
+  textSize(20);
+  c = color('black')
+  fill(c)
+  text('To start, use your left wrist to control the cursor.', windowWidth/2, windowHeight * 4 / 7)
+
+  // draw instructions message
+  textAlign(CENTER);
+  textSize(20);
+  c = color('black')
+  fill(c)
+  text('Hover over the Start Button for 10 seconds to begin.', windowWidth/2, windowHeight * 5 / 8)
+
+  // draw start button
+  c = color('green')
+  fill(c);
+  horizontalOffset = startWidth / 2
+  startX = windowWidth / 2 - horizontalOffset
+  startY = windowHeight * 2 / 3
+  rect(startX, startY, startWidth, startHeight, 20)
+  textAlign(CENTER);
+  textSize(30);
+  c = color('white')
+  fill(c)
+  text('Start', windowWidth / 2, windowHeight * 5 / 7)
 
   // Draw progress cursor
+  console.log(mouseX)
   stroke(255);
   c = color('red')
   fill(c);
-  arc(cursor_x, cursor_y, 80, 80, 0, (counter / 5) * QUARTER_PI);
+  arc(mouseX, mouseY, 80, 80, 0, (counter / 5) * QUARTER_PI);
   c = color('black')
   fill(c)
-  ellipse(cursor_x, cursor_y, 50, 50)
+  ellipse(mouseX, mouseY, 50, 50)
 }
 
-function drawStudySpaceImages(img, imgX, imgY) {
-  image(img, imgX, imgY, imgWidth, imgHeight);
-}
-
-function updateProgress(imgCoord) {
-  let imgX_0 = imgCoord[0][0], imgX_1 = imgCoord[1][0], imgX_2 = imgCoord[2][0], imgX_3 = imgCoord[3][0]
-  let imgY_0 = imgCoord[0][1], imgY_1 = imgCoord[1][1], imgY_2 = imgCoord[2][1], imgY_3 = imgCoord[3][1]
-
+function updateProgress() {
   // Navigate amongst the page based on status of progress counter
-  if (cursor_y > windowHeight / 2) {  // If left hand is raised halfway above the screen
-    if (counter > 40) {
-      console.log("START")
-    } else {
-      if (!timer) {
-        myInterval = setInterval(function () {
-          counter++;
-        }, 50);
-        timer = true
-      }
-    }
+  if (counter > 40) {
     // Cleanup
     clearInterval(myInterval)
     timer = false
     counter = 0
-  }
-  else if (cursor_y > windowHeight / 2)
-  {
 
-}
-
-function drawStarCharts(headers, values, originX, originY) {
-  for (let i = 0; i < n_stats; i++) { 
-    c = color('black')
-    fill(c)
-    textOffset = 30
-    textAlign(RIGHT, TOP)
-    textSize(30)
-    // assumes the middle values of the CSV are the statistics, so skips 1 (the original space)
-    text(headers[i+1], originX + windowWidth*3/8 - textOffset, originY + windowHeight / 4 + i * 30 - 15)
-    barMaxLength = 250
-    c = color('red')
-    fill(c);
-    
-    // ignore the first space since it's the space
-    for (let n = 0; n < values[i+1]; n++) {
-      star(originX + windowWidth*3/8 + 40*n, originY + windowHeight / 4 + i * 30, 7.5, 17.5, 5);
-    }
-    
+    // change pages
+    window.location.href = 'questions.html'
+  } else if (mouseX > startX && mouseX < (startX + startWidth) && mouseY > startY && mouseY < (startY + startHeight)) {
+    if (!timer) {
+      myInterval = setInterval(function () {
+        counter++;
+      }, 50);
+      timer = true
+    } 
+  } else {
+    clearInterval(myInterval)
+    timer = false
+    counter = 0
   }
-}
-
-// taken from https://p5js.org/examples/form-star.html
-function star(x, y, radius1, radius2, npoints) {
-  let angle = TWO_PI / npoints;
-  let halfAngle = angle / 2.0;
-  beginShape();
-  for (let a = 0; a < TWO_PI; a += angle) {
-    let sx = x + cos(a) * radius2;
-    let sy = y + sin(a) * radius2;
-    vertex(sx, sy);
-    sx = x + cos(a + halfAngle) * radius1;
-    sy = y + sin(a + halfAngle) * radius1;
-    vertex(sx, sy);
-  }
-  endShape(CLOSE);
 }
