@@ -76,6 +76,7 @@ let table
 let n_stats = 3 // number of statistics
 let headers 
 let values
+let PICTUREINDEX = 6  // column # of picture links in CSV 
 
 // Initialize images
 function preload() {
@@ -83,12 +84,13 @@ function preload() {
   table = loadTable("studyspace_data.csv", "csv", "header");
 }
 
+
 function setup() {
   // load images
-  img_top_left = loadImage('assets/' + table.getString(0,4))
-  img_top_right = loadImage('assets/' + table.getString(1,4))
-  img_bot_left = loadImage('assets/' + table.getString(2,4))
-  img_bot_right = loadImage('assets/' + table.getString(3,4))
+  img_top_left = loadImage('assets/' + table.getString(0,PICTUREINDEX))
+  img_top_right = loadImage('assets/' + table.getString(1,PICTUREINDEX))
+  img_bot_left = loadImage('assets/' + table.getString(2,PICTUREINDEX))
+  img_bot_right = loadImage('assets/' + table.getString(3,PICTUREINDEX))
 
   // load study space information
   headers = table.columns
