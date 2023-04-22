@@ -1,7 +1,3 @@
-// save this line as a variable localStorage.setItem("ideal", JSON.stringify(ideal));
-idealspaces = JSON.parse(localStorage.getItem("ideal"));
-console.log(idealspaces);
-
 // Adapted from https://p5js.org/examples/interaction-snake-game.html
 // Code for connecting to Kinect
 var host = "cpsc484-03.yale.internal:8888";
@@ -56,6 +52,10 @@ var twod = {
   }
 };
 
+// Grab the ideal study spaces from local storage
+let idealspaces = JSON.parse(localStorage.getItem("ideal"));
+console.log(idealspaces);
+
 // DECLARE VARIABLES
 let cursor_x = 0, cursor_y = 0  // cursor tracks the left wrist of the person on the Kinect
 
@@ -99,11 +99,14 @@ function preload() {
 
 
 function setup() {
+  // log all keys in the idealspaces[0] object
+  console.log(Object.keys(idealspaces[3]))
+  console.log(idealspaces[0]['Picture\r'])
   // load images
-  img_top_left = loadImage('assets/' + table.getString(0,PICTUREINDEX))
-  img_top_right = loadImage('assets/' + table.getString(1,PICTUREINDEX))
-  img_bot_left = loadImage('assets/' + table.getString(2,PICTUREINDEX))
-  img_bot_right = loadImage('assets/' + table.getString(3,PICTUREINDEX))
+  img_top_left = loadImage('assets/' + idealspaces[0]['Picture\r'])
+  img_top_right = loadImage('assets/' + idealspaces[1]['Picture\r'])
+  img_bot_left = loadImage('assets/' + idealspaces[2]['Picture\r'])
+  img_bot_right = loadImage('assets/' + idealspaces[3]['Picture\r'])
 
   // load study space information
   headers = table.columns
@@ -140,7 +143,7 @@ function draw() {
     c = color('black')
     fill(c)
     textAlign(CENTER);
-    text(table.getString(i,0), imgX + imgWidth / 2, imgY + imgHeight + 15)
+    text(idealspaces[i]['Name'], imgX + imgWidth / 2, imgY + imgHeight + 15)
 
     drawStarCharts(headers, values[i], quadX, quadY)
     drawStudySpaceImages(imgs[i], imgX, imgY)
