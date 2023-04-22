@@ -1,10 +1,6 @@
-// save this line as a variable localStorage.setItem("ideal", JSON.stringify(ideal));
-idealspaces = JSON.parse(localStorage.getItem("ideal"));
-console.log(idealspaces);
-
 // Adapted from https://p5js.org/examples/interaction-snake-game.html
 // Code for connecting to Kinect
-var host = "cpsc484-03.yale.internal:8888/demo";
+var host = "cpsc484-03.yale.internal:8888";
 // var host = "localhost:4444";
 $(document).ready(function() {
   frames.start();
@@ -18,21 +14,25 @@ var frames = {
     var url = "ws://" + host + "/frames";
     frames.socket = new WebSocket(url);
     frames.socket.onmessage = function (event) {
-      var command = frames.get_left_wrist_command(JSON.parse(event.data));
-      if (command !== null) {
-        sendWristCommand(command);
-      }
+      frames.get_left_wrist_command(JSON.parse(event.data));
     }
   },
 
   get_left_wrist_command: function (frame) {
-    var pelvis_x = frame.people[0].joints[0].position.x;
-    var pelvis_y = frame.people[0].joints[0].position.y;
-    var left_wrist_x = (frame.people[0].joints[7].position.x - pelvis_x) * -1;
-    var left_wrist_y = (frame.people[0].joints[7].position.y - pelvis_y) * -1;
+    console.log(frame)
+    if (frame.people === undefined || frame.people.length == 0) {
+      console.log("no people in frame")
+    } else {
+      var pelvis_x = frame.people[0].joints[0].position.x;
+      var pelvis_y = frame.people[0].joints[0].position.y;
+      var left_wrist_x = (frame.people[0].joints[7].position.x - pelvis_x) * -1;
+      var left_wrist_y = (frame.people[0].joints[7].position.y - pelvis_y) * -1;
+  
+      console.log(left_wrist_x)
+      cursor_x = (1.5*left_wrist_x) + windowWidth/2
+      cursor_y = windowHeight - (1.5*left_wrist_y)
+    }
 
-    cursor_x = left_wrist_x + windowWidth/2
-    cursor_y = windowHeight - left_wrist_y
   }
 };
 
@@ -51,6 +51,10 @@ var twod = {
     $('.twod').attr("src", 'data:image/pnjpegg;base64,'+twod.src);
   }
 };
+
+// Grab the ideal study spaces from local storage
+let idealspaces = JSON.parse(localStorage.getItem("ideal"));
+console.log(idealspaces);
 
 // DECLARE VARIABLES
 let cursor_x = 0, cursor_y = 0  // cursor tracks the left wrist of the person on the Kinect
@@ -95,11 +99,14 @@ function preload() {
 
 
 function setup() {
+  // log all keys in the idealspaces[0] object
+  console.log(Object.keys(idealspaces[3]))
+  console.log(idealspaces[0]['Picture\r'])
   // load images
-  img_top_left = loadImage('assets/' + table.getString(0,PICTUREINDEX))
-  img_top_right = loadImage('assets/' + table.getString(1,PICTUREINDEX))
-  img_bot_left = loadImage('assets/' + table.getString(2,PICTUREINDEX))
-  img_bot_right = loadImage('assets/' + table.getString(3,PICTUREINDEX))
+  img_top_left = loadImage('assets/' + idealspaces[0]['Picture\r'])
+  img_top_right = loadImage('assets/' + idealspaces[1]['Picture\r'])
+  img_bot_left = loadImage('assets/' + idealspaces[2]['Picture\r'])
+  img_bot_right = loadImage('assets/' + idealspaces[3]['Picture\r'])
 
   // load study space information
   headers = table.columns
@@ -112,7 +119,7 @@ function setup() {
   for (let i = 0; i < 4; i++) {
     quadX = coord[i][0]
     quadY = coord[i][1]
-    imgCoord.push([quadX + windowWidth/32, quadY + windowHeight*3/16])
+    imgCoord.push([quadX + windowWidth/32, quadY + windowHeight*1/16])
   }
 }
 
@@ -136,7 +143,7 @@ function draw() {
     c = color('black')
     fill(c)
     textAlign(CENTER);
-    text(table.getString(i,0), imgX + imgWidth / 2, imgY + imgHeight + 15)
+    text(idealspaces[i]['Name'], imgX + imgWidth / 2, imgY + imgHeight + 15)
 
     drawStarCharts(headers, values[i], quadX, quadY)
     drawStudySpaceImages(imgs[i], imgX, imgY)
