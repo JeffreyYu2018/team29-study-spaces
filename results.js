@@ -28,8 +28,8 @@ var frames = {
       var left_wrist_x = (frame.people[0].joints[7].position.x - pelvis_x) * -1;
       var left_wrist_y = (frame.people[0].joints[7].position.y - pelvis_y) * -1;
   
-      cursor_x = (1.5*left_wrist_x) + windowWidth/2
-      cursor_y = windowHeight - (1.5*left_wrist_y)
+      mouseX = (1.5*left_wrist_x) + windowWidth/2
+      mouseY = windowHeight - (1.5*left_wrist_y)
     }
 
   }
@@ -56,7 +56,7 @@ let idealspaces = JSON.parse(localStorage.getItem("ideal"));
 console.log(idealspaces);
 
 // DECLARE VARIABLES
-let cursor_x = 0, cursor_y = 0  // cursor tracks the left wrist of the person on the Kinect
+// let mouseX = 0, mouseY = 0  // cursor tracks the left wrist of the person on the Kinect
 
 // settings of the refresh and redo buttons on the display
 let refreshX, refreshY, redoX, redoY
@@ -98,9 +98,7 @@ function preload() {
 
 
 function setup() {
-  // log all keys in the idealspaces[0] object
-  console.log(Object.keys(idealspaces[3]))
-  console.log(idealspaces[0]['Picture\r'])
+
   // load images
   img_top_left = loadImage('assets/' + idealspaces[0]['Picture\r'])
   img_top_right = loadImage('assets/' + idealspaces[1]['Picture\r'])
@@ -110,7 +108,7 @@ function setup() {
   // load study space information
   headers = table.columns
   values = table.getArray()
-  console.log(values)
+
 
   createCanvas(windowWidth, windowHeight);
   coord = [[horizOffsetQuad,vertOffsetQuad],[horizOffsetQuad,windowHeight*56/100],[windowWidth/2+horizOffsetQuad/3,vertOffsetQuad],[windowWidth/2+horizOffsetQuad/3,windowHeight*56/100]] // coordinates of quadrants
@@ -189,10 +187,10 @@ function draw() {
   stroke(255);
   c = color('red')
   fill(c);
-  arc(cursor_x, cursor_y, 80, 80, 0, (counter / 5) * QUARTER_PI);
+  arc(mouseX, mouseY, 80, 80, 0, (counter / 5) * QUARTER_PI);
   c = color('black')
   fill(c)
-  ellipse(cursor_x, cursor_y, 50, 50)
+  ellipse(mouseX, mouseY, 50, 50)
 }
 
 function drawStudySpaceImages(img, imgX, imgY) {
@@ -207,42 +205,42 @@ function updateProgress(imgCoord) {
   if (counter > 40) {
     // EJ'S CODE TO CHANGE PAGES GOES HERE
     // Check where the cursor is pointed
-    if (cursor_x > imgX_0 && cursor_x < (imgX_0 + imgWidth) && cursor_y > imgY_0 && cursor_y < (imgY_0 + imgHeight)) {
+    if (mouseX > imgX_0 && mouseX < (imgX_0 + imgWidth) && mouseY > imgY_0 && mouseY < (imgY_0 + imgHeight)) {
       // NAVIGATE TO IMAGE ZERO (TOP LEFT)
       localStorage.setItem('finalSpace', JSON.stringify(idealspaces[0]))
       // open A5/info.html
-      window.localtion.href = 'A5/info.html'
-    } else if (cursor_x > imgX_1 && cursor_x < (imgX_1 + imgWidth) && cursor_y > imgY_1 && cursor_y < (imgY_1 + imgHeight)) {
+      window.location.href = 'A5/info.html'
+    } else if (mouseX > imgX_1 && mouseX < (imgX_1 + imgWidth) && mouseY > imgY_1 && mouseY < (imgY_1 + imgHeight)) {
       // NAVIGATE TO IMAGE ONE (TOP RIGHT)
       localStorage.setItem('finalSpace', JSON.stringify(idealspaces[1]))
-      window.localtion.href = 'A5/info.html'
-    } else if (cursor_x > imgX_2 && cursor_x < (imgX_2 + imgWidth) && cursor_y > imgY_2 && cursor_y < (imgY_2 + imgHeight)) {
+      window.location.href = 'A5/info.html'
+    } else if (mouseX > imgX_2 && mouseX < (imgX_2 + imgWidth) && mouseY > imgY_2 && mouseY < (imgY_2 + imgHeight)) {
       // NAVIGATE TO IMAGE TWO (BOTTOM LEFT)
       localStorage.setItem('finalSpace', JSON.stringify(idealspaces[2]))
-      window.localtion.href = 'A5/info.html'
-    } else if (cursor_x > imgX_3 && cursor_x < (imgX_3 + imgWidth) && cursor_y > imgY_3 && cursor_y < (imgY_3 + imgHeight)) {
+      window.location.href = 'A5/info.html'
+    } else if (mouseX > imgX_3 && mouseX < (imgX_3 + imgWidth) && mouseY > imgY_3 && mouseY < (imgY_3 + imgHeight)) {
       // NAVIGATE TO IMAGE THREE (BOTTOM RIGHT)
       localStorage.setItem('finalSpace', JSON.stringify(idealspaces[3]))
-      window.localtion.href = 'A5/info.html'
-    } else if (cursor_x > refreshX && cursor_x < (refreshX + refreshWidth) && cursor_y > refreshY && cursor_y < (refreshY + refreshHeight)) {
+      window.location.href = 'A5/info.html'
+    } else if (mouseX > refreshX && mouseX < (refreshX + refreshWidth) && mouseY > refreshY && mouseY < (refreshY + refreshHeight)) {
       // REFRESH RESULTS AND DISPLAY NEW ONES
       // TODO: make sure i'm grabbing top 8 instead of 4
-    } else if (cursor_x > redoX && cursor_x < (redoX + redoWidth) && cursor_y > redoY && cursor_y < (redoY + redoHeight)) {
+    } else if (mouseX > redoX && mouseX < (redoX + redoWidth) && mouseY > redoY && mouseY < (redoY + redoHeight)) {
       // RESTART THE QUIZ FROM BEGINNING
       // make sure to wipe local values
-      window.localtion.href = 'questions.html'
+      window.location.href = 'questions.html'
     }
     // Cleanup
     clearInterval(myInterval)
     timer = false
     counter = 0
   }
-  else if ((cursor_x > imgX_0 && cursor_x < (imgX_0 + imgWidth) && cursor_y > imgY_0 && cursor_y < (imgY_0 + imgHeight)) ||
-    (cursor_x > imgX_1 && cursor_x < (imgX_1 + imgWidth) && cursor_y > imgY_1 && cursor_y < (imgY_1 + imgHeight)) ||
-    (cursor_x > imgX_2 && cursor_x < (imgX_2 + imgWidth) && cursor_y > imgY_2 && cursor_y < (imgY_2 + imgHeight)) ||
-    (cursor_x > imgX_3 && cursor_x < (imgX_3 + imgWidth) && cursor_y > imgY_3 && cursor_y < (imgY_3 + imgHeight)) ||
-    (cursor_x > refreshX && cursor_x < (refreshX + refreshWidth) && cursor_y > refreshY && cursor_y < (refreshY + refreshHeight)) ||
-    (cursor_x > redoX && cursor_x < (redoX + redoWidth) && cursor_y > redoY && cursor_y < (redoY + redoHeight))
+  else if ((mouseX > imgX_0 && mouseX < (imgX_0 + imgWidth) && mouseY > imgY_0 && mouseY < (imgY_0 + imgHeight)) ||
+    (mouseX > imgX_1 && mouseX < (imgX_1 + imgWidth) && mouseY > imgY_1 && mouseY < (imgY_1 + imgHeight)) ||
+    (mouseX > imgX_2 && mouseX < (imgX_2 + imgWidth) && mouseY > imgY_2 && mouseY < (imgY_2 + imgHeight)) ||
+    (mouseX > imgX_3 && mouseX < (imgX_3 + imgWidth) && mouseY > imgY_3 && mouseY < (imgY_3 + imgHeight)) ||
+    (mouseX > refreshX && mouseX < (refreshX + refreshWidth) && mouseY > refreshY && mouseY < (refreshY + refreshHeight)) ||
+    (mouseX > redoX && mouseX < (redoX + redoWidth) && mouseY > redoY && mouseY < (redoY + redoHeight))
   ) {
     if (!timer) {
       myInterval = setInterval(function () {
@@ -258,7 +256,6 @@ function updateProgress(imgCoord) {
 }
 
 function drawStarCharts(headers, values, originX, originY) {
-  console.log(values)
   for (let i = 0; i < n_stats; i++) { 
     c = color('black')
     noStroke()
