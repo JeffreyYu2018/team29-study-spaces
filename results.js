@@ -117,7 +117,7 @@ function setup() {
 }
 
 function draw() {
-  background(204,204,204);
+  background(243,243,243);
   let c = color('red');
   for (let i = 0; i < 4; i++) {
     // generate image coordinates
@@ -146,11 +146,11 @@ function draw() {
   updateProgress(imgCoord)
 
   // draw Your Matches box
-  c = color(204,204,204)
+  c = color(243,243,243)
   fill(c);
   rect(windowWidth/2-YourMatchesWidth/2, 0, YourMatchesWidth, YourMatchesHeight)
   textAlign(CENTER);
-  textSize(30);
+  textSize(50);
   c = color('black')
   fill(c)
   text('Your Matches', windowWidth/2, YourMatchesHeight/2)
@@ -163,19 +163,19 @@ function draw() {
   rect(refreshX, refreshY, refreshWidth, refreshHeight, 20)
   textAlign(CENTER);
   textSize(30);
-  c = color('black')
+  c = color('white')
   fill(c)
   text('Refresh', windowWidth*3/4+refreshWidth/2, refreshHeight/2+vertOffset*3/5)
 
   // Draw Redo Quiz button
   redoX = windowWidth-(windowWidth*3/4)-redoWidth
   redoY = vertOffset
-  c = color('pink')
+  c = color(34,133,255)
   fill(c);
   rect(redoX, redoY, redoWidth, redoHeight, 20)
   textAlign(CENTER);
   textSize(30);
-  c = color('black')
+  c = color('white')
   fill(c)
   text('Redo Quiz', windowWidth/4-redoWidth/2, redoHeight/2+vertOffset*3/5)
 
@@ -255,14 +255,14 @@ function drawStarCharts(headers, values, originX, originY) {
     textAlign(RIGHT, TOP)
     textSize(30)
     // assumes the middle values of the CSV are the statistics, so skips 1 (the original space)
-    text(headers[i+1], originX + windowWidth*3/8 - textOffset, originY + (windowHeight / 4 - 2 * vertOffset) + i * 30 - 15)
+    text(headers[i+1], originX + windowWidth*3/8 - textOffset, originY + (windowHeight / 4 - 2 * vertOffset) + i * 50 - 15)
     barMaxLength = 250
     c = color('red')
     fill(c);
     
     // ignore the first space since it's the space
     for (let n = 0; n < values[i+1]; n++) {
-      star(originX + windowWidth*3/8 + 40*n, originY + windowHeight / 4 + i * 30, 7.5, 17.5, 5);
+      star(originX + windowWidth*3/8 + 40*n, originY + (windowHeight / 4 - 2 * vertOffset) + i * 50, 7.5, 17.5, 5);
     }
     
   }
