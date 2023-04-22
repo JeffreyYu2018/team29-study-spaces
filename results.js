@@ -1,3 +1,7 @@
+// save this line as a variable localStorage.setItem("ideal", JSON.stringify(ideal));
+idealspaces = JSON.parse(localStorage.getItem("ideal"));
+console.log(idealspaces);
+
 // Adapted from https://p5js.org/examples/interaction-snake-game.html
 // Code for connecting to Kinect
 var host = "cpsc484-03.yale.internal:8888/demo";

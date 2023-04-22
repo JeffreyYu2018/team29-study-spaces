@@ -175,6 +175,8 @@ function changeQuestion(step) { //changes the question and handles the end of th
         // run the algorithm
         ideal = findIdealStudySpaces(answers, studySpaces);
         console.log(ideal);
+        localStorage.setItem("ideal", JSON.stringify(ideal));
+        console.log(localStorage.getItem("ideal"));
         window.location.href = "index.html";
 
     }
