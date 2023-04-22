@@ -107,6 +107,7 @@ function setup() {
   // load study space information
   headers = table.columns
   values = table.getArray()
+  console.log(values)
 
   createCanvas(windowWidth, windowHeight);
   coord = [[horizOffsetQuad,vertOffsetQuad],[horizOffsetQuad,windowHeight*56/100],[windowWidth/2+horizOffsetQuad/3,vertOffsetQuad],[windowWidth/2+horizOffsetQuad/3,windowHeight*56/100]] // coordinates of quadrants
@@ -140,8 +141,7 @@ function draw() {
     fill(c)
     textAlign(CENTER);
     text(idealspaces[i]['Name'], imgX + imgWidth / 2, imgY + imgHeight + 15)
-
-    drawStarCharts(headers, values[i], quadX, quadY)
+    drawStarCharts(headers, Object.values(idealspaces[i]), quadX, quadY)
     drawStudySpaceImages(imgs[i], imgX, imgY)
   }
 
@@ -250,6 +250,7 @@ function updateProgress(imgCoord) {
 }
 
 function drawStarCharts(headers, values, originX, originY) {
+  console.log(values)
   for (let i = 0; i < n_stats; i++) { 
     c = color('black')
     noStroke()
