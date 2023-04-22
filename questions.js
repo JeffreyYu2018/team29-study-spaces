@@ -5,6 +5,7 @@ const choiceC = document.getElementById('choiceC');
 const choiceD = document.getElementById('choiceD');
 const prevBtn = document.getElementById('prevBtn');
 
+
 // Questions for the survey
 const questions = [
     {
@@ -175,7 +176,7 @@ function changeQuestion(step) { //changes the question and handles the end of th
         ideal = findIdealStudySpaces(answers, studySpaces);
         console.log(ideal);
         window.location.href = "index.html";
-        
+
     }
     displayQuestion();
 }
