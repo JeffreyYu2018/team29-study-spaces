@@ -1,6 +1,6 @@
 // Adapted from https://p5js.org/examples/interaction-snake-game.html
 // Code for connecting to Kinect
-var host = "cpsc484-03.yale.internal:8888/demo";
+var host = "cpsc484-03.yale.internal:8888";
 // var host = "localhost:4444";
 $(document).ready(function() {
   frames.start();
@@ -14,21 +14,25 @@ var frames = {
     var url = "ws://" + host + "/frames";
     frames.socket = new WebSocket(url);
     frames.socket.onmessage = function (event) {
-      var command = frames.get_left_wrist_command(JSON.parse(event.data));
-      if (command !== null) {
-        sendWristCommand(command);
-      }
+      frames.get_left_wrist_command(JSON.parse(event.data));
     }
   },
 
   get_left_wrist_command: function (frame) {
-    var pelvis_x = frame.people[0].joints[0].position.x;
-    var pelvis_y = frame.people[0].joints[0].position.y;
-    var left_wrist_x = (frame.people[0].joints[7].position.x - pelvis_x) * -1;
-    var left_wrist_y = (frame.people[0].joints[7].position.y - pelvis_y) * -1;
+    console.log(frame)
+    if (frame.people === undefined || frame.people.length == 0) {
+      console.log("no people in frame")
+    } else {
+      var pelvis_x = frame.people[0].joints[0].position.x;
+      var pelvis_y = frame.people[0].joints[0].position.y;
+      var left_wrist_x = (frame.people[0].joints[7].position.x - pelvis_x) * -1;
+      var left_wrist_y = (frame.people[0].joints[7].position.y - pelvis_y) * -1;
+  
+      console.log(left_wrist_x)
+      cursor_x = (1.5*left_wrist_x) + windowWidth/2
+      cursor_y = windowHeight - (1.5*left_wrist_y)
+    }
 
-    cursor_x = left_wrist_x + windowWidth/2
-    cursor_y = windowHeight - left_wrist_y
   }
 };
 
@@ -116,7 +120,7 @@ function setup() {
   for (let i = 0; i < 4; i++) {
     quadX = coord[i][0]
     quadY = coord[i][1]
-    imgCoord.push([quadX + windowWidth/32, quadY + windowHeight*3/16])
+    imgCoord.push([quadX + windowWidth/32, quadY + windowHeight*1/16])
   }
 }
 
