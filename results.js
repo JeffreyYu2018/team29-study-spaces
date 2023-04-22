@@ -80,7 +80,7 @@ let values
 // Initialize images
 function preload() {
   // load study space information
-  table = loadTable("data.csv", "csv", "header");
+  table = loadTable("studyspace_data.csv", "csv", "header");
 }
 
 function setup() {
