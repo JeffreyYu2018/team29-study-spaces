@@ -102,7 +102,7 @@ function preload() {
   table = loadTable("studyspace_data.csv", "csv", "header");
 }
 
-
+// FIX LOCAL STORAGE STUFF
 function setup() {
   // if idealstudy spaces = null, then load backupspaces
   if (idealspaces == null) {
@@ -240,7 +240,6 @@ function updateProgress(imgCoord) {
       idealspaces = null
       // set the backupspaces
       localStorage.setItem('backupspaces', JSON.stringify(backupspaces))
-
       window.location.href = 'index.html'
       // TODO: make sure i'm grabbing top 8 instead of 4
     } else if (mouseX > redoX && mouseX < (redoX + redoWidth) && mouseY > redoY && mouseY < (redoY + redoHeight)) {
@@ -309,3 +308,7 @@ function star(x, y, radius1, radius2, npoints) {
   }
   endShape(CLOSE);
 }
+
+$(window).unload(function() {
+  localStorage.removeItem('backupspaces')
+});
