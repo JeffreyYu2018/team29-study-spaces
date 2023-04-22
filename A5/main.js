@@ -1,3 +1,6 @@
+let final = JSON.parse(localStorage.getItem("ideal"));
+console.log(final);
+
 // Set the address
 const address = "15+High+St,+New+Haven,+CT";
 
