@@ -5,7 +5,7 @@ const choiceC = document.getElementById('choiceC');
 const choiceD = document.getElementById('choiceD');
 const prevBtn = document.getElementById('prevBtn');
 
-
+// Questions for the survey
 const questions = [
     {
         question: 'What level of noise do you prefer?',
@@ -63,17 +63,18 @@ const questions = [
 
 ];
 
+// answers array to store user's answers etc. [1,2,3]
 const answers = [];
 
-let currentQuestion = 0;
+let currentQuestion = 0; //tracker of what question is currently being answered in the questions array
 
-async function fetchCSV(url) {
+async function fetchCSV(url) { //fetches the csv file
     const response = await fetch(url);
     const csvText = await response.text();
     return parseCSV(csvText);
 }
 
-function parseCSV(csvText) {
+function parseCSV(csvText) { //parses the csv file
     const rows = csvText.split('\n').filter(row => row.trim() !== '');
     const header = rows.shift().split(',');
 
@@ -86,7 +87,7 @@ function parseCSV(csvText) {
     });
 }
 
-function calculateDifference(userAnswers, studySpaceAnswers) {
+function calculateDifference(userAnswers, studySpaceAnswers) { //calculates the difference between the user's answers and the study space's answers
     let difference = 0;
 
     for (let i = 0; i < userAnswers.length; i++) {
@@ -96,27 +97,19 @@ function calculateDifference(userAnswers, studySpaceAnswers) {
     return difference;
 }
 
-function findIdealStudySpaces(userAnswers, studySpaces) {
+function findIdealStudySpaces(userAnswers, studySpaces) { //finds the ideal study spaces based on the user's answers
     const differences = studySpaces.map(space => {
         const studySpaceAnswers = Object.values(space).slice(1).map(Number);
         const difference = calculateDifference(userAnswers, studySpaceAnswers);
         return { ...space, difference };
     });
 
-    differences.sort((a, b) => a.difference - b.difference);
+    differences.sort((a, b) => a.difference - b.difference); //sorts the differences in ascending order
 
     return differences.slice(0, 4);
 }
 
-const userAnswers = [1, 2, 3];
-
-(async () => {
-    const csvUrl = 'studyspace_data.csv';
-    const studySpaces = await fetchCSV(csvUrl);
-    const idealStudySpaces = findIdealStudySpaces(userAnswers, studySpaces);
-    console.log('Top 4 ideal study spaces:', idealStudySpaces);
-})();
-
+//TESTING CODE-------------------------------------------------------------------
 // Mock CSV string
 const mockCSV = `Name,Noise,Distance,Availability
 Saint Thomas Moore,1,3,1
@@ -142,11 +135,11 @@ Digital Humanities Library,2,2,1
 School of Management,1,3,1`;
 
 // Test user's answers
-const userAnswer = [1, 2, 2];
+const userAnswers = [1, 2, 2];
 
 // Testing
 const studySpaces = parseCSV(mockCSV);
-const idealStudySpaces = findIdealStudySpaces(userAnswer, studySpaces);
+const idealStudySpaces = findIdealStudySpaces(userAnswers, studySpaces);
 console.log('Top 4 ideal study spaces:', idealStudySpaces);
 
 // Assertions
@@ -162,9 +155,9 @@ if (JSON.stringify(idealStudySpaces) === JSON.stringify(expectedIdealStudySpaces
 } else {
     console.error("Test failed: Algorithm did not return expected results.");
 }
+// FINISH TESTING CODE-----------------------------------------------------------
 
-
-function displayQuestion() {
+function displayQuestion() { //displays the question and choices
     questionText.textContent = questions[currentQuestion].question;
     choiceA.textContent = questions[currentQuestion].choices[0];
     choiceB.textContent = questions[currentQuestion].choices[1];
@@ -172,7 +165,7 @@ function displayQuestion() {
     choiceD.textContent = questions[currentQuestion].choices[3];
 }
 
-function changeQuestion(step) {
+function changeQuestion(step) { //changes the question and handles the end of the quiz/algorithm
     currentQuestion += step;
     if (currentQuestion < 0) {
         currentQuestion = 0;
@@ -187,7 +180,7 @@ function changeQuestion(step) {
 
 displayQuestion();
 
-prevBtn.addEventListener('click', () => {
+prevBtn.addEventListener('click', () => { //if the user clicks the previous button, we want to go back to the previous question
     changeQuestion(-1);
     // remove the last answer
     answers.pop();
@@ -223,35 +216,3 @@ choiceD.addEventListener('click', () => {
     changeQuestion(1);
 
 });
-
-// when the user finishes answering all the questions, we want to run the algorithm
-// and display the top 4 study spaces to the user
-
-var csv = 'data.csv';
-$.get(csv, function (data) {
-    var lines = data.split('\r\n');
-    var result = [];
-    var headers = lines[0].split(',');
-    for (var i = 1; i < lines.length; i++) {
-        var obj = {};
-        var currentline = lines[i].split(',');
-        for (var j = 0; j < headers.length; j++) {
-            insert = currentline[j];
-            obj[headers[j]] = insert;
-        }
-        // if all the space attributes are empty, don't add it to the result
-        if (obj['Space'] != '') {
-            result.push(obj);
-        }
-    }
-    console.log(result);
-});
-
-
-
-// 
-// Step 1: Track what they answer for each question (1,2,3,4)
-// Step 2: Read each line of the study spaces csv file and compare the answers to the attributes of each space
-// track the differences between the answers and the attributes
-// Keep the top 4 spaces with the least differences
-// Step 3: Display the top 4 spaces to the user
