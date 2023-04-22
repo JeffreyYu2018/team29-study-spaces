@@ -19,7 +19,6 @@ var frames = {
   },
 
   get_left_wrist_command: function (frame) {
-    console.log(frame)
     if (frame.people === undefined || frame.people.length == 0) {
       console.log("no people in frame")
     } else {
@@ -31,7 +30,6 @@ var frames = {
       mouseX = (1.5*left_wrist_x) + windowWidth/2
       mouseY = windowHeight - (1.5*left_wrist_y)
     }
-
   }
 };
 
@@ -227,8 +225,7 @@ function updateProgress(imgCoord) {
       // TODO: make sure i'm grabbing top 8 instead of 4
     } else if (mouseX > redoX && mouseX < (redoX + redoWidth) && mouseY > redoY && mouseY < (redoY + redoHeight)) {
       // RESTART THE QUIZ FROM BEGINNING
-      // make sure to wipe local values
-      window.location.href = 'questions.html'
+      window.location.href = 'A5/info.html'
     }
     // Cleanup
     clearInterval(myInterval)
