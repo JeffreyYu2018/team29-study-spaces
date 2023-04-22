@@ -95,11 +95,7 @@ function updateProgress(imgCoord) {
           counter++;
         }, 50);
         timer = true
-      } else {
-        clearInterval(myInterval)
-        timer = false
-        counter = 0
-      } 
+      }
     }
     // Cleanup
     clearInterval(myInterval)
