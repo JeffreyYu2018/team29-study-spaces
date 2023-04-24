@@ -104,7 +104,7 @@ async function changeQuestion(step) {
         }
         localStorage.setItem("ideal", JSON.stringify(ideal));
         console.log(localStorage.getItem("ideal"));
-        window.location.href = "index.html";
+        window.location.href = "results.html";
       } catch (error) {
         console.error(error);
       }
