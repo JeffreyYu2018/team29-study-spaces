@@ -18,19 +18,17 @@ There are no constraints in our deployment environment.It is vanilla JS, HTML/CS
 ## Collaboration Record
 
 **Student Name and NetID:** Josephine Shin, jys24\
-**Contribution:** 
+**Contribution:**\
+To play to our strengths, I focused more on the UI and the overall coherency in the design of the project across our three components that we worked on for Assignment 5. I worked with Jeffrey and EJ on their respective parts to make the display look uniform and compiled images for our study space database. I also looked out for any heuristic violations that we had learned about a few weeks ago and added clear instructions to the results page to go into a specified study space for more details about hours and address. I made the README doc and formatted accordingly. 
 
 **Student Name and NetID:** Jeffrey Yu, jcy29\
-**Contribution:** 
-
+**Contribution:** \
 I worked on implementing the cursor functionality across all of the different pages, along with connecting EJ's work on the page navigation into the code. This involved adding the JS on top of the CSS and HTML of my group members such that I didn't have to regenerate it all in JS. I also worked with Josephine on incorporating the graphic and UX design changes to make the app more visually appealing. She instructed me on how to change the visuals of each one of the pages (particularly the results page), and I implemented it in the codee (changing fonts, colors, sizes, removing borders, centering text, etc.) 
 
 **Student Name and NetID:** EJ Wilford, ejw58\
-**Contribution:** 
-
+**Contribution:** \
 I implemented the search function for study spaces based on a user input. This was done in javascript. I also implemented cross page memory allocation using local storage and handled the refresh function utilizing this skill. Moreover, I created the google maps integration for the project on the final slide, and also worked on connecting all slides togehter. This was mostly JS work, as I let Josephine handle the CSS/aesthetic portion of my pages and Jeffery to handle the cursor integration. I also was responsible for handling task review. 
 
 
------Rubric------
+-----Rubric------\
 The code includes a README text file that explains how to install any dependencies and run the project (2 pts), provides a brief description of the project and what tasks the installation addresses (1 pts), indicates explicitly if there are any constraints from the deployment environment (0.5 pts), and includes a collaboration record that specifies what each team member contributed to the prototype (1.5 pts).
-
