@@ -4,7 +4,7 @@ Our project does not include any dependencies in order for the project to run.
 
 ## Description:
 
-Our project is inspired by a Buzzfeed quiz format with the goal of providing suggestions to the user on potential study spaces to explore around New Haven. 
+Our project is inspired by a Buzzfeed quiz format with the goal of providing suggestions to the user on potential study spaces to explore around New Haven. The user answers a series of questions about their preferences in a study space such as noise level, distance, and other characteristics. Their answers are then stored and compared with data in our study spaces database to filter a set of resulting study spaces for the user to try out. 
 
 ## Constraints: 
 
