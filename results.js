@@ -260,7 +260,7 @@ function updateProgress(imgCoord) {
       idealspaces = null
       // set the backupspaces
       localStorage.setItem('backupspaces', JSON.stringify(backupspaces))
-      window.location.href = 'index.html'
+      window.location.href = 'results.html'
       // TODO: make sure i'm grabbing top 8 instead of 4
     } else if (mouseX > redoX && mouseX < (redoX + redoWidth) && mouseY > redoY && mouseY < (redoY + redoHeight)) {
       localStorage.removeItem('backupspaces')
