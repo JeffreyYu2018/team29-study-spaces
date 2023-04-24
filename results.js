@@ -174,7 +174,14 @@ function draw() {
   textSize(50);
   c = color('black')
   fill(c)
-  text('Your Matches', windowWidth/2, YourMatchesHeight/2)
+  text('Your Matches', windowWidth/2, YourMatchesHeight/3)
+
+  // draw instructions message here
+  textAlign(CENTER);
+  textSize(20);
+  c = color('black')
+  fill(c)
+  text('Hover Over an Image for More Details About the Space', windowWidth/2, YourMatchesHeight)
 
   // Draw refresh button
   c = color('green')
