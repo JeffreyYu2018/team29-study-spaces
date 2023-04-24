@@ -8,6 +8,25 @@ console.log(final);
 // Name : "Tsai Center"
 // Noise : "1"
 // "Picture " : "test.jpg\r"
+
+let noisenum = final.Noise;
+let availnum = final.Availability;
+let distnum = final.Distance;
+
+// while noisenum isn't zero, add a star to the noise rating
+while (noisenum > 0) {
+    let noise = document.getElementById("noise");
+    noise.innerHTML = noise.innerHTML + "★";
+}
+while (availnum > 0) {
+    let avail = document.getElementById("avail");
+    avail.innerHTML = avail.innerHTML + "★";
+}
+while (distnum > 0) {
+    let dist = document.getElementById("dist");
+    dist.innerHTML = dist.innerHTML + "★";
+}
+
 //
 // get the iframe with id = "map-iframe"
 
@@ -25,14 +44,29 @@ document.addEventListener("DOMContentLoaded", function() {
     mapIframe.src = mapUrl;
 });
 
-// put the address in the addy <p> tag
-const addy = document.getElementById("addy");
-addy.innerHTML = final.Address.trim().replace(/"/g, "");
+// find p.addy and put the address in it
+let addy = document.getElementById("addy");
+console.log(addy)
+console.log(final.Address);
+// replace the " with nothing
+final.Address = final.Address.replace(/"/g, "");
+addy.innerHTML = addy.innerHTML + final.Address;
 
-// put the hours in the hrs <p> tag
-const hrs = document.getElementById("hrs");
-hrs.innerHTML = final.Hours;
+let hrs = document.getElementById("hrs");
+hrs.innerHTML = hrs.innerHTML + final.Hours;
 
-// TODO-- FINISH THESE AND MAKE HTINGS BASED ON EVERYTHIN
+// h1.name
+let name = document.getElementById("name");
+name.innerHTML = name.innerHTML + final.Name;
 
+// when you click the button with id = "goback" it brings you to the main page
+let goback = document.getElementById("goback");
+goback.addEventListener("click", function() {
+    // it goes back a folder in the directory
+    window.location.href = "../index.html";
+});
 
+let pic = document.getElementById("pic");
+let picaddy = "../assets/" + final.Picture.trim();
+console.log(picaddy);
+pic.src = picaddy;
