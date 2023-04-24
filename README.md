@@ -3,7 +3,6 @@
 Our project does not include any dependencies in order for the project to run.
 
 &nbsp;
-&nbsp;
 
 ## Description:
 
@@ -16,6 +15,9 @@ Our project is inspired by a Buzzfeed quiz format with the goal of providing sug
 
 1. Currently, the system addresses the task of identifying the key interest metrics of a given study space and displaying them to users. This includes noise level, crowdedness, and distance. This is done on the results page and is displayed in a consistent manner for all spaces to provide comparison capabilities. 
 2. We are also visualizing the study spaces with pictures to give users an aesthetic preview of a given study space that they may want to visit. This is also done for all spaces which allows for comparison between them before a final decision is made. This was a task we have assigned previously and in this iteration it is accomplished. 
+
+&nbsp;
+&nbsp;
 
 ## Constraints: 
 
