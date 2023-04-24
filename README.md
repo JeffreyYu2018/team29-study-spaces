@@ -29,7 +29,8 @@ I worked on implementing the cursor functionality across all of the different pa
 **Contribution:** \
 I implemented the search function for study spaces based on a user input. This was done in javascript. I also implemented cross page memory allocation using local storage and handled the refresh function utilizing this skill. Moreover, I created the google maps integration for the project on the final slide, and also worked on connecting all slides togehter. This was mostly JS work, as I let Josephine handle the CSS/aesthetic portion of my pages and Jeffery to handle the cursor integration. I also was responsible for handling task review.\
 
-
+&nbsp;
+&nbsp;
 
 -----Rubric------\
 The code includes a README text file that explains how to install any dependencies and run the project (2 pts), provides a brief description of the project and what tasks the installation addresses (1 pts), indicates explicitly if there are any constraints from the deployment environment (0.5 pts), and includes a collaboration record that specifies what each team member contributed to the prototype (1.5 pts).
