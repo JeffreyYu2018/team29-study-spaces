@@ -71,7 +71,7 @@ async function findIdealStudySpaces(userAnswers, studySpaces) { //finds the idea
   });
 
   differences.sort((a, b) => a.difference - b.difference); //sorts the differences in ascending order
-  return differences.slice(0, 4);
+  return differences.slice(0, 8);
 }
 
 

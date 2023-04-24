@@ -27,8 +27,8 @@ var frames = {
       var left_wrist_x = (frame.people[0].joints[7].position.x - pelvis_x) * -1;
       var left_wrist_y = (frame.people[0].joints[7].position.y - pelvis_y) * -1;
   
-      cursor_x = (1.5*left_wrist_x) + windowWidth/2
-      cursor_y = windowHeight - (1.5*left_wrist_y)
+      mouseX = (1.5*left_wrist_x) + windowWidth/2
+      mouseY = windowHeight - (1.5*left_wrist_y)
     }
   }
 };
@@ -50,11 +50,19 @@ var twod = {
 };
 
 // Grab the ideal study spaces from local storage
-let idealspaces = JSON.parse(localStorage.getItem("ideal"));
+let all8 = JSON.parse(localStorage.getItem("ideal"));
+// set idealspaces as first 4 elements of all8
+let idealspaces = all8.slice(0,4);
+// check if localStorage.getItem("backup") exists, if so, set idealspaces as the backup
+if (localStorage.getItem("backupspaces")) {
+  idealspaces = JSON.parse(localStorage.getItem("backupspaces"));
+}
+let backupspaces = all8.slice(4,8);
 console.log(idealspaces);
+console.log(backupspaces);
 
 // DECLARE VARIABLES
-let cursor_x = 0, cursor_y = 0  // cursor tracks the left wrist of the person on the Kinect
+// let mouseX = 0, mouseY = 0  // cursor tracks the left wrist of the person on the Kinect
 
 // settings of the refresh and redo buttons on the display
 let refreshX, refreshY, redoX, redoY
@@ -94,11 +102,12 @@ function preload() {
   table = loadTable("studyspace_data.csv", "csv", "header");
 }
 
-
+// FIX LOCAL STORAGE STUFF
 function setup() {
-  // log all keys in the idealspaces[0] object
-  console.log(Object.keys(idealspaces[3]))
-  console.log(idealspaces[0]['Picture\r'])
+  // if idealstudy spaces = null, then load backupspaces
+  if (idealspaces == null) {
+    idealspaces = backupspaces
+  }
   // load images
   img_top_left = loadImage('assets/' + idealspaces[0]['Picture\r'])
   img_top_right = loadImage('assets/' + idealspaces[1]['Picture\r'])
@@ -108,6 +117,7 @@ function setup() {
   // load study space information
   headers = table.columns
   values = table.getArray()
+
 
   createCanvas(windowWidth, windowHeight);
   coord = [[horizOffsetQuad,vertOffsetQuad],[horizOffsetQuad,windowHeight*56/100],[windowWidth/2+horizOffsetQuad/3,vertOffsetQuad],[windowWidth/2+horizOffsetQuad/3,windowHeight*56/100]] // coordinates of quadrants
@@ -141,8 +151,7 @@ function draw() {
     fill(c)
     textAlign(CENTER);
     text(idealspaces[i]['Name'], imgX + imgWidth / 2, imgY + imgHeight + 15)
-
-    drawStarCharts(headers, values[i], quadX, quadY)
+    drawStarCharts(headers, Object.values(idealspaces[i]), quadX, quadY)
     drawStudySpaceImages(imgs[i], imgX, imgY)
   }
 
@@ -187,10 +196,10 @@ function draw() {
   stroke(255);
   c = color('red')
   fill(c);
-  arc(cursor_x, cursor_y, 80, 80, 0, (counter / 5) * QUARTER_PI);
+  arc(mouseX, mouseY, 80, 80, 0, (counter / 5) * QUARTER_PI);
   c = color('black')
   fill(c)
-  ellipse(cursor_x, cursor_y, 50, 50)
+  ellipse(mouseX, mouseY, 50, 50)
 }
 
 function drawStudySpaceImages(img, imgX, imgY) {
@@ -200,42 +209,60 @@ function drawStudySpaceImages(img, imgX, imgY) {
 function updateProgress(imgCoord) {
   let imgX_0 = imgCoord[0][0], imgX_1 = imgCoord[1][0], imgX_2 = imgCoord[2][0], imgX_3 = imgCoord[3][0]
   let imgY_0 = imgCoord[0][1], imgY_1 = imgCoord[1][1], imgY_2 = imgCoord[2][1], imgY_3 = imgCoord[3][1]
+  // if idealstudy spaces = null, then load backupspaces
+  if (idealspaces == null) {
+    idealspaces = backupspaces
+  }
 
   // Navigate amongst the page based on status of progress counter
   if (counter > 40) {
     // EJ'S CODE TO CHANGE PAGES GOES HERE
     // Check where the cursor is pointed
-    if (cursor_x > imgX_0 && cursor_x < (imgX_0 + imgWidth) && cursor_y > imgY_0 && cursor_y < (imgY_0 + imgHeight)) {
+    if (mouseX > imgX_0 && mouseX < (imgX_0 + imgWidth) && mouseY > imgY_0 && mouseY < (imgY_0 + imgHeight)) {
       // NAVIGATE TO IMAGE ZERO (TOP LEFT)
+      localStorage.setItem('finalSpace', JSON.stringify(idealspaces[0]))
+      // get rid of the backupspaces if they exist
+      localStorage.removeItem('backupspaces')
       // open A5/info.html
       window.location.href = 'A5/info.html'
-    } else if (cursor_x > imgX_1 && cursor_x < (imgX_1 + imgWidth) && cursor_y > imgY_1 && cursor_y < (imgY_1 + imgHeight)) {
+    } else if (mouseX > imgX_1 && mouseX < (imgX_1 + imgWidth) && mouseY > imgY_1 && mouseY < (imgY_1 + imgHeight)) {
       // NAVIGATE TO IMAGE ONE (TOP RIGHT)
+      localStorage.setItem('finalSpace', JSON.stringify(idealspaces[1]))
+      localStorage.removeItem('backupspaces')
       window.location.href = 'A5/info.html'
-    } else if (cursor_x > imgX_2 && cursor_x < (imgX_2 + imgWidth) && cursor_y > imgY_2 && cursor_y < (imgY_2 + imgHeight)) {
+    } else if (mouseX > imgX_2 && mouseX < (imgX_2 + imgWidth) && mouseY > imgY_2 && mouseY < (imgY_2 + imgHeight)) {
       // NAVIGATE TO IMAGE TWO (BOTTOM LEFT)
+      localStorage.setItem('finalSpace', JSON.stringify(idealspaces[2]))
+      localStorage.removeItem('backupspaces')
       window.location.href = 'A5/info.html'
-    } else if (cursor_x > imgX_3 && cursor_x < (imgX_3 + imgWidth) && cursor_y > imgY_3 && cursor_y < (imgY_3 + imgHeight)) {
+    } else if (mouseX > imgX_3 && mouseX < (imgX_3 + imgWidth) && mouseY > imgY_3 && mouseY < (imgY_3 + imgHeight)) {
       // NAVIGATE TO IMAGE THREE (BOTTOM RIGHT)
+      localStorage.setItem('finalSpace', JSON.stringify(idealspaces[3]))
+      localStorage.removeItem('backupspaces')
       window.location.href = 'A5/info.html'
-    } else if (cursor_x > refreshX && cursor_x < (refreshX + refreshWidth) && cursor_y > refreshY && cursor_y < (refreshY + refreshHeight)) {
+    } else if (mouseX > refreshX && mouseX < (refreshX + refreshWidth) && mouseY > refreshY && mouseY < (refreshY + refreshHeight)) {
       // REFRESH RESULTS AND DISPLAY NEW ONES
+      idealspaces = null
+      // set the backupspaces
+      localStorage.setItem('backupspaces', JSON.stringify(backupspaces))
+      window.location.href = 'index.html'
       // TODO: make sure i'm grabbing top 8 instead of 4
-    } else if (cursor_x > redoX && cursor_x < (redoX + redoWidth) && cursor_y > redoY && cursor_y < (redoY + redoHeight)) {
+    } else if (mouseX > redoX && mouseX < (redoX + redoWidth) && mouseY > redoY && mouseY < (redoY + redoHeight)) {
+      localStorage.removeItem('backupspaces')
       // RESTART THE QUIZ FROM BEGINNING
-      window.location.href = 'A5/info.html'
+      window.location.href = 'questions.html'
     }
     // Cleanup
     clearInterval(myInterval)
     timer = false
     counter = 0
   }
-  else if ((cursor_x > imgX_0 && cursor_x < (imgX_0 + imgWidth) && cursor_y > imgY_0 && cursor_y < (imgY_0 + imgHeight)) ||
-    (cursor_x > imgX_1 && cursor_x < (imgX_1 + imgWidth) && cursor_y > imgY_1 && cursor_y < (imgY_1 + imgHeight)) ||
-    (cursor_x > imgX_2 && cursor_x < (imgX_2 + imgWidth) && cursor_y > imgY_2 && cursor_y < (imgY_2 + imgHeight)) ||
-    (cursor_x > imgX_3 && cursor_x < (imgX_3 + imgWidth) && cursor_y > imgY_3 && cursor_y < (imgY_3 + imgHeight)) ||
-    (cursor_x > refreshX && cursor_x < (refreshX + refreshWidth) && cursor_y > refreshY && cursor_y < (refreshY + refreshHeight)) ||
-    (cursor_x > redoX && cursor_x < (redoX + redoWidth) && cursor_y > redoY && cursor_y < (redoY + redoHeight))
+  else if ((mouseX > imgX_0 && mouseX < (imgX_0 + imgWidth) && mouseY > imgY_0 && mouseY < (imgY_0 + imgHeight)) ||
+    (mouseX > imgX_1 && mouseX < (imgX_1 + imgWidth) && mouseY > imgY_1 && mouseY < (imgY_1 + imgHeight)) ||
+    (mouseX > imgX_2 && mouseX < (imgX_2 + imgWidth) && mouseY > imgY_2 && mouseY < (imgY_2 + imgHeight)) ||
+    (mouseX > imgX_3 && mouseX < (imgX_3 + imgWidth) && mouseY > imgY_3 && mouseY < (imgY_3 + imgHeight)) ||
+    (mouseX > refreshX && mouseX < (refreshX + refreshWidth) && mouseY > refreshY && mouseY < (refreshY + refreshHeight)) ||
+    (mouseX > redoX && mouseX < (redoX + redoWidth) && mouseY > redoY && mouseY < (redoY + redoHeight))
   ) {
     if (!timer) {
       myInterval = setInterval(function () {
@@ -261,7 +288,7 @@ function drawStarCharts(headers, values, originX, originY) {
     // assumes the middle values of the CSV are the statistics, so skips 1 (the original space)
     text(headers[i+1], originX + windowWidth*3/8 - textOffset, originY + (windowHeight / 4 - 2 * vertOffset) + i * 50 - 15)
     barMaxLength = 250
-    c = color('red')
+    c = color('gold')
     fill(c);
     
     // ignore the first space since it's the space
@@ -287,3 +314,4 @@ function star(x, y, radius1, radius2, npoints) {
   }
   endShape(CLOSE);
 }
+
