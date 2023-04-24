@@ -34,7 +34,7 @@ To play to our strengths, I focused more on the UI and the overall coherency in 
 
 **Student Name and NetID:** Jeffrey Yu, jcy29\
 **Contribution:** \
-I worked on implementing the cursor functionality across all of the different pages, along with connecting EJ's work on the page navigation into the code. This involved adding the JS on top of the CSS and HTML of my group members such that I didn't have to regenerate it all in JS. I also worked with Josephine on incorporating the graphic and UX design changes to make the app more visually appealing. She instructed me on how to change the visuals of each one of the pages (particularly the results page), and I implemented it in the codee (changing fonts, colors, sizes, removing borders, centering text, etc.) 
+I worked on implementing the cursor functionality across all of the different pages, along with connecting EJ's work on the page navigation into the code. This involved adding the JS on top of the CSS and HTML of my group members such that I didn't have to regenerate it all in JS. I also worked with Josephine on incorporating the graphic and UX design changes to make the app more visually appealing. She instructed me on how to change the visuals of each one of the pages (particularly the results page), and I implemented it in the codee (changing fonts, colors, sizes, removing borders, centering text, etc.) Finally, I added in the body tracking functionality such that the Kinect would lock onto the same body_id. (as explained here: https://edstem.org/us/courses/35126/discussion/2993123?answer=6851187) 
 
 **Student Name and NetID:** EJ Wilford, ejw58\
 **Contribution:** \
