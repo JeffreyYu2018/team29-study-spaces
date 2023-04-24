@@ -25,9 +25,20 @@
     text-align: center;
 }
 
+#chosen {
+    position: absolute;
+    top: 14vh;
+    left: 15vw;
+
+}
+
 h1 {
-    padding: 30px;
     font-size: 40px;
+}
+
+#name {
+    padding-top: 80px;
+    font-size: 30px;
 }
 
 .left p {
@@ -60,7 +71,13 @@ h1 {
 }
 
 img {
-    width: 90%;
+    width: 80%;
+}
+
+iframe {
+    margin-top: 20px;
+    height: 50vh;
+    width: 50vw;
 }
 
 .grid p {
@@ -79,9 +96,9 @@ img {
 
 button {
     position: absolute;
-    top: 100px;
+    top: 30px;
     left: 50px;
-    width: 150px;
+    width: 130px;
     border: none;
     background-color: transparent;
     font-size: 20px;
