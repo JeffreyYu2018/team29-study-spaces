@@ -4,9 +4,11 @@ Our project does not include any dependencies in order for the project to run.
 
 ## Description:
 
-Our project is inspired by a Buzzfeed quiz format with the goal of providing suggestions to the user on potential study spaces to explore around New Haven. 
+Our project is inspired by a Buzzfeed quiz format with the goal of providing suggestions to the user on potential study spaces to explore around New Haven. The user answers a series of questions about their preferences in a study space such as noise level, distance, and other characteristics. Their answers are then stored and compared with data in our study spaces database to filter a set of resulting study spaces for the user to try out. 
 
 ## Constraints: 
+
+There are no constraints in our deployment environment.
 
 ## Collaboration Record
 
@@ -15,6 +17,8 @@ Our project is inspired by a Buzzfeed quiz format with the goal of providing sug
 
 **Student Name and NetID:** Jeffrey Yu, jcy29\
 **Contribution:** 
+
+I worked on implementing the cursor functionality across all of the different pages, along with connecting EJ's work on the page navigation into the code. This involved adding the JS on top of the CSS and HTML of my group members such that I didn't have to regenerate it all in JS. I also worked with Josephine on incorporating the graphic and UX design changes. She instructed me on how to change the visuals of each one of the pages (particularly the results page), and I implemented it (changing fonts, colors, sizes, etc.) 
 
 **Student Name and NetID:** EJ Wilford, ejw58\
 **Contribution:** I implemented 

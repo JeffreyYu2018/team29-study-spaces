@@ -106,7 +106,7 @@ function updateProgress() {
     if (!timer) {
       myInterval = setInterval(function () {
         counter++;
-      }, 50);
+      }, 75);
       timer = true
     } 
   } else {
