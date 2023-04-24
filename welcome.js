@@ -49,6 +49,9 @@ var twod = {
   }
 };
 
+// settings for the cursor
+let cursor_x = 0, cursor_y = 0
+
 // settings of the start button
 let startX, startY
 let startWidth = 250, startHeight = 80

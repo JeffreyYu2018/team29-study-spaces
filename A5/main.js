@@ -51,7 +51,7 @@ var twod = {
 };
 
 // DECLARE VARIABLES
-// let cursor_x = 0, cursor_y = 0  // cursor tracks the left wrist of the person on the Kinect
+let cursor_x = 0, cursor_y = 0  // cursor tracks the left wrist of the person on the Kinect
 
 // settings of the start button
 let back_x, back_y, back_width, back_height

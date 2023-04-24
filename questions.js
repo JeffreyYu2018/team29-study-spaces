@@ -205,7 +205,7 @@ var twod = {
 };
 
 // DECLARE VARIABLES
-// let mouseX = 0, mouseY = 0  // cursor tracks the left wrist of the person on the Kinect
+let cursor_x = 0, cursor_y = 0  // cursor tracks the left wrist of the person on the Kinect
 
 // settings of the start button
 let prev_x, prev_y, prev_width, prev_height
@@ -264,36 +264,36 @@ function draw() {
   stroke(255);
   c = color('red')
   fill(c);
-  arc(mouseX, mouseY, 80, 80, 0, (counter / 5) * QUARTER_PI);
+  arc(cursor_x, cursor_y, 80, 80, 0, (counter / 5) * QUARTER_PI);
   c = color('black')
   fill(c)
-  ellipse(mouseX, mouseY, 50, 50)
+  ellipse(cursor_x, cursor_y, 50, 50)
 }
 
 function updateProgress() {
   // Navigate amongst the page based on status of progress counter
   if (counter > 40) {
     // Check where the cursor is pointed
-    if ((mouseX > bA_x) && (mouseX < (bA_x + bA_width)) && (mouseY > bA_y + nav_height) && (mouseY < (bA_y + bA_height + nav_height))) {
+    if ((cursor_x > bA_x) && (cursor_x < (bA_x + bA_width)) && (cursor_y > bA_y + nav_height) && (cursor_y < (bA_y + bA_height + nav_height))) {
       console.log(questions[currentQuestion].choices[0]);
       answers.push(1);
       changeQuestion(1);
-    } else if  ((mouseX > bB_x) && (mouseX < (bB_x + bB_width)) && (mouseY > bB_y + nav_height) && (mouseY < (bB_y + bB_height + nav_height))) {
+    } else if  ((cursor_x > bB_x) && (cursor_x < (bB_x + bB_width)) && (cursor_y > bB_y + nav_height) && (cursor_y < (bB_y + bB_height + nav_height))) {
       // save choice
       console.log(questions[currentQuestion].choices[1]);
       answers.push(2);
       changeQuestion(1);
-    } else if ((mouseX > bC_x) && (mouseX < (bC_x + bC_width)) && (mouseY > bC_y + nav_height) && (mouseY < (bC_y + bC_height + nav_height))) {
+    } else if ((cursor_x > bC_x) && (cursor_x < (bC_x + bC_width)) && (cursor_y > bC_y + nav_height) && (cursor_y < (bC_y + bC_height + nav_height))) {
       // save choice
       console.log(questions[currentQuestion].choices[2]);
       answers.push(3);
       changeQuestion(1);
-    } else if ((mouseX > bD_x) && (mouseX < (bD_x + bD_width)) && (mouseY > bD_y + nav_height) && (mouseY < (bD_y + bD_height + nav_height))) {
+    } else if ((cursor_x > bD_x) && (cursor_x < (bD_x + bD_width)) && (cursor_y > bD_y + nav_height) && (cursor_y < (bD_y + bD_height + nav_height))) {
       // save choice
       console.log(questions[currentQuestion].choices[3]);
       answers.push(4);
       changeQuestion(1);
-    } else if ((mouseX > prev_x) && (mouseX < (prev_x + prev_width)) && (mouseY > prev_y) && (mouseY < (prev_y + prev_height))) {
+    } else if ((cursor_x > prev_x) && (cursor_x < (prev_x + prev_width)) && (cursor_y > prev_y) && (cursor_y < (prev_y + prev_height))) {
       changeQuestion(-1);
       // remove the last answer
       answers.pop();
@@ -306,11 +306,11 @@ function updateProgress() {
     clearInterval(myInterval)
     timer = false
     counter = 0
-  } else if (((mouseX > bA_x) && (mouseX < (bA_x + bA_width)) && (mouseY > bA_y + nav_height) && (mouseY < (bA_y + bA_height + nav_height))) ||
-    ((mouseX > bB_x) && (mouseX < (bB_x + bB_width)) && (mouseY > bB_y + nav_height) && (mouseY < (bB_y + bB_height + nav_height))) ||
-    ((mouseX > bC_x) && (mouseX < (bC_x + bC_width)) && (mouseY > bC_y + nav_height) && (mouseY < (bC_y + bC_height + nav_height))) ||
-    ((mouseX > bD_x) && (mouseX < (bD_x + bD_width)) && (mouseY > bD_y + nav_height) && (mouseY < (bD_y + bD_height + nav_height))) ||
-    ((mouseX > prev_x) && (mouseX < (prev_x + prev_width)) && (mouseY > prev_y) && (mouseY < (prev_y + prev_height)))
+  } else if (((cursor_x > bA_x) && (cursor_x < (bA_x + bA_width)) && (cursor_y > bA_y + nav_height) && (cursor_y < (bA_y + bA_height + nav_height))) ||
+    ((cursor_x > bB_x) && (cursor_x < (bB_x + bB_width)) && (cursor_y > bB_y + nav_height) && (cursor_y < (bB_y + bB_height + nav_height))) ||
+    ((cursor_x > bC_x) && (cursor_x < (bC_x + bC_width)) && (cursor_y > bC_y + nav_height) && (cursor_y < (bC_y + bC_height + nav_height))) ||
+    ((cursor_x > bD_x) && (cursor_x < (bD_x + bD_width)) && (cursor_y > bD_y + nav_height) && (cursor_y < (bD_y + bD_height + nav_height))) ||
+    ((cursor_x > prev_x) && (cursor_x < (prev_x + prev_width)) && (cursor_y > prev_y) && (cursor_y < (prev_y + prev_height)))
   ) {
     if (!timer) {
       myInterval = setInterval(function () {

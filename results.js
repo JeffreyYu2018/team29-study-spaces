@@ -70,7 +70,7 @@ console.log(backupspaces);
 console.log(idealspaces[0])
 
 // DECLARE VARIABLES
-// let cursor_x = 0, cursor_y = 0  // cursor tracks the left wrist of the person on the Kinect
+let cursor_x = 0, cursor_y = 0  // cursor tracks the left wrist of the person on the Kinect
 
 // settings of the refresh and redo buttons on the display
 let refreshX, refreshY, redoX, redoY
