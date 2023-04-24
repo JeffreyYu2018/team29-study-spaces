@@ -71,7 +71,7 @@ async function findIdealStudySpaces(userAnswers, studySpaces) { //finds the idea
   });
 
   differences.sort((a, b) => a.difference - b.difference); //sorts the differences in ascending order
-  return differences.slice(0, 8);
+  return differences.slice(0, 4);
 }
 
 
@@ -248,8 +248,6 @@ function setup() {
   nav_y = nav.position().y
   nav_width = nav.width
   nav_height = nav.height
-
-  console.log(prev_x, prev_y, prev_width, prev_height)
 }
 
 function draw() {

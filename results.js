@@ -27,8 +27,8 @@ var frames = {
       var left_wrist_x = (frame.people[0].joints[7].position.x - pelvis_x) * -1;
       var left_wrist_y = (frame.people[0].joints[7].position.y - pelvis_y) * -1;
   
-      mouseX = (1.5*left_wrist_x) + windowWidth/2
-      mouseY = windowHeight - (1.5*left_wrist_y)
+      cursor_x = (1.5*left_wrist_x) + windowWidth/2
+      cursor_y = windowHeight - (1.5*left_wrist_y)
     }
   }
 };
