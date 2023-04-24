@@ -73,21 +73,21 @@ function draw() {
 
   // draw welcome message
   textAlign(CENTER);
-  textSize(50);
+  textSize(70);
   c = color('black')
   fill(c)
   text('Welcome to our Quiz', windowWidth/2, windowHeight/2)
 
   // draw instructions message
   textAlign(CENTER);
-  textSize(20);
+  textSize(25);
   c = color('black')
   fill(c)
-  text('To start, use your left wrist to control the cursor.', windowWidth/2, windowHeight * 4 / 7)
+  text('To start, use your left wrist to control the cursor.', windowWidth/2, windowHeight * 4.1 / 7)
 
   // draw instructions message
   textAlign(CENTER);
-  textSize(20);
+  textSize(25);
   c = color('black')
   fill(c)
   text('Hover over the Start Button for 10 seconds to begin.', windowWidth/2, windowHeight * 5 / 8)
