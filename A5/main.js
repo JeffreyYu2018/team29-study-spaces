@@ -96,7 +96,7 @@ function updateProgress() {
   if (counter > 40) {
     // Check where the cursor is pointed
     if ((mouseX > back_x) && (mouseX < (back_x + back_width)) && (mouseY > back_y) && (mouseY < (back_y + back_height))) {
-        window.location.href = "../index.html";
+        window.location.href = "../results.html";
     }
     // Cleanup
     clearInterval(myInterval)
