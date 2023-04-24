@@ -41,6 +41,7 @@ h1 {
     height: 100vh;
     background-color:white;
     justify-content: center;
+    color: white;
 }
 
 
@@ -65,7 +66,6 @@ img {
 .grid p {
     width: 100%; 
     padding: 35px;
-    color: white;
     box-shadow: 0px 2px 3px 2px #ccc;
     border-radius: 10px;
     background-color: #2285ff;

@@ -288,7 +288,7 @@ function drawStarCharts(headers, values, originX, originY) {
     // assumes the middle values of the CSV are the statistics, so skips 1 (the original space)
     text(headers[i+1], originX + windowWidth*3/8 - textOffset, originY + (windowHeight / 4 - 2 * vertOffset) + i * 50 - 15)
     barMaxLength = 250
-    c = color('red')
+    c = color('gold')
     fill(c);
     
     // ignore the first space since it's the space
