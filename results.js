@@ -1,3 +1,6 @@
+console.log("results.js loaded");
+// if there is an 
+
 // Adapted from https://p5js.org/examples/interaction-snake-game.html
 // Code for connecting to Kinect
 var host = "cpsc484-03.yale.internal:8888";
@@ -51,15 +54,20 @@ var twod = {
 
 // Grab the ideal study spaces from local storage
 let all8 = JSON.parse(localStorage.getItem("ideal"));
+console.log(all8)
 // set idealspaces as first 4 elements of all8
 let idealspaces = all8.slice(0,4);
 // check if localStorage.getItem("backup") exists, if so, set idealspaces as the backup
 if (localStorage.getItem("backupspaces")) {
+  console.log("backupspaces exists")
   idealspaces = JSON.parse(localStorage.getItem("backupspaces"));
 }
 let backupspaces = all8.slice(4,8);
+console.log("Ideal spaces:")
 console.log(idealspaces);
+console.log("Backup spaces:")
 console.log(backupspaces);
+console.log(idealspaces[0])
 
 // DECLARE VARIABLES
 // let mouseX = 0, mouseY = 0  // cursor tracks the left wrist of the person on the Kinect
