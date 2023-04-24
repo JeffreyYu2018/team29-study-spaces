@@ -1,4 +1,3 @@
-console.log("results.js loaded");
 // if there is an 
 
 // Adapted from https://p5js.org/examples/interaction-snake-game.html
@@ -9,6 +8,8 @@ $(document).ready(function() {
   frames.start();
   twod.start();
 });
+
+let body_id
 
 var frames = {
   socket: null,
@@ -25,13 +26,48 @@ var frames = {
     if (frame.people === undefined || frame.people.length == 0) {
       console.log("no people in frame")
     } else {
-      var pelvis_x = frame.people[0].joints[0].position.x;
-      var pelvis_y = frame.people[0].joints[0].position.y;
-      var left_wrist_x = (frame.people[0].joints[7].position.x - pelvis_x) * -1;
-      var left_wrist_y = (frame.people[0].joints[7].position.y - pelvis_y) * -1;
+      if (body_id === undefined) {  // no body currently selected
+        // grab body_id from person with lowest y_pos value
+        let min_y_pos = Infinity
+        let body_id_index
+        for (let b = 0; b < frame.people.length; b++) {
+          if (frame.people[b].y_pos < min_y_pos) {
+            min_y_pos = frame.people[b].y_pos
+            body_id = frame.people[b].body_id
+            body_id_index = b
+          }
+        }
+        var pelvis_x = frame.people[body_id_index].joints[0].position.x;
+        var pelvis_y = frame.people[body_id_index].joints[0].position.y;
+        var left_wrist_x = (frame.people[body_id_index].joints[7].position.x - pelvis_x) * -1;
+        var left_wrist_y = (frame.people[body_id_index].joints[7].position.y - pelvis_y) * -1;
   
-      cursor_x = (1.5*left_wrist_x) + windowWidth/2
-      cursor_y = windowHeight - (1.5*left_wrist_y)
+        cursor_x = (1.5*left_wrist_x) + windowWidth/2
+        cursor_y = windowHeight - (1.5*left_wrist_y)
+
+      } else {
+        // check if the body_id is still there
+        // identify the person with the body id
+        let body_id_index = undefined
+        for (let b = 0; b < frame.people.length; b++) {
+          if (frame.people[b].body_id === body_id) {
+            body_id = frame.people[b].body_id
+            body_id_index = b
+          }
+        }
+        // is the person still there? if not, reset the loop and exist
+        if (body_id_index === undefined) {
+          body_id = undefined
+        } else {  // otherwise, update the cursor location
+          var pelvis_x = frame.people[body_id_index].joints[0].position.x;
+          var pelvis_y = frame.people[body_id_index].joints[0].position.y;
+          var left_wrist_x = (frame.people[body_id_index].joints[7].position.x - pelvis_x) * -1;
+          var left_wrist_y = (frame.people[body_id_index].joints[7].position.y - pelvis_y) * -1;
+
+          cursor_x = (1.5*left_wrist_x) + windowWidth/2
+          cursor_y = windowHeight - (1.5*left_wrist_y)
+        }
+      }
     }
   }
 };
