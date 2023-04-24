@@ -106,7 +106,7 @@ function updateProgress() {
     if (!timer) {
       myInterval = setInterval(function () {
         counter++;
-      }, 50);
+      }, 75);
       timer = true
     } 
   } else {
@@ -134,16 +134,17 @@ console.log(final['Picture\r']);
 let noisenum = final.Noise;
 let availnum = final.Busyness;
 let distnum = final.Distance;
+// put this star in : U+2B50 the unicode for a star after the name
 
 // while noisenum isn't zero, add a star to the noise rating
 let noise = document.getElementById("noise");
-noise.innerHTML = noise.innerHTML + "★".repeat(noisenum);
+noise.innerHTML = noise.innerHTML + "⭐".repeat(noisenum);
 
 let avail = document.getElementById("convenience");
-avail.innerHTML = avail.innerHTML + "★".repeat(availnum);
+avail.innerHTML = avail.innerHTML + "⭐".repeat(availnum);
 
 let dist = document.getElementById("distance");
-dist.innerHTML = dist.innerHTML + "★".repeat(distnum);
+dist.innerHTML = dist.innerHTML + "⭐".repeat(distnum);
 
 // your code here
 const mapIframe = document.getElementById("map-iframe");

@@ -186,7 +186,7 @@ function draw() {
   textSize(30);
   c = color('white')
   fill(c)
-  text('Refresh', windowWidth*3/4+refreshWidth/2, refreshHeight/2+vertOffset*3/5)
+  text('More Results', windowWidth*3/4+refreshWidth/2, refreshHeight/2+vertOffset*3/5)
 
   // Draw Redo Quiz button
   redoX = windowWidth-(windowWidth*3/4)-redoWidth
@@ -275,7 +275,7 @@ function updateProgress(imgCoord) {
     if (!timer) {
       myInterval = setInterval(function () {
         counter++;
-      }, 50);
+      }, 75);
       timer = true
     }
   } else {
