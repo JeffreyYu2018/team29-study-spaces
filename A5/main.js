@@ -51,7 +51,7 @@ var twod = {
 };
 
 // DECLARE VARIABLES
-// let mouseX = 0, mouseY = 0  // cursor tracks the left wrist of the person on the Kinect
+// let cursor_x = 0, cursor_y = 0  // cursor tracks the left wrist of the person on the Kinect
 
 // settings of the start button
 let back_x, back_y, back_width, back_height
@@ -85,24 +85,24 @@ function draw() {
   stroke(255);
   c = color('red')
   fill(c);
-  arc(mouseX, mouseY, 80, 80, 0, (counter / 5) * QUARTER_PI);
+  arc(cursor_x, cursor_y, 80, 80, 0, (counter / 5) * QUARTER_PI);
   c = color('black')
   fill(c)
-  ellipse(mouseX, mouseY, 50, 50)
+  ellipse(cursor_x, cursor_y, 50, 50)
 }
 
 function updateProgress() {
   // Navigate amongst the page based on status of progress counter
   if (counter > 40) {
     // Check where the cursor is pointed
-    if ((mouseX > back_x) && (mouseX < (back_x + back_width)) && (mouseY > back_y) && (mouseY < (back_y + back_height))) {
+    if ((cursor_x > back_x) && (cursor_x < (back_x + back_width)) && (cursor_y > back_y) && (cursor_y < (back_y + back_height))) {
         window.location.href = "../results.html";
     }
     // Cleanup
     clearInterval(myInterval)
     timer = false
     counter = 0
-  } else if ((mouseX > back_x) && (mouseX < (back_x + back_width)) && (mouseY > back_y) && (mouseY < (back_y + back_height))) {
+  } else if ((cursor_x > back_x) && (cursor_x < (back_x + back_width)) && (cursor_y > back_y) && (cursor_y < (back_y + back_height))) {
     if (!timer) {
       myInterval = setInterval(function () {
         counter++;

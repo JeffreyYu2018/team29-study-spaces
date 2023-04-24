@@ -70,7 +70,7 @@ console.log(backupspaces);
 console.log(idealspaces[0])
 
 // DECLARE VARIABLES
-// let mouseX = 0, mouseY = 0  // cursor tracks the left wrist of the person on the Kinect
+// let cursor_x = 0, cursor_y = 0  // cursor tracks the left wrist of the person on the Kinect
 
 // settings of the refresh and redo buttons on the display
 let refreshX, refreshY, redoX, redoY
@@ -211,10 +211,10 @@ function draw() {
   stroke(255);
   c = color('red')
   fill(c);
-  arc(mouseX, mouseY, 80, 80, 0, (counter / 5) * QUARTER_PI);
+  arc(cursor_x, cursor_y, 80, 80, 0, (counter / 5) * QUARTER_PI);
   c = color('black')
   fill(c)
-  ellipse(mouseX, mouseY, 50, 50)
+  ellipse(cursor_x, cursor_y, 50, 50)
 }
 
 function drawStudySpaceImages(img, imgX, imgY) {
@@ -233,36 +233,36 @@ function updateProgress(imgCoord) {
   if (counter > 40) {
     // EJ'S CODE TO CHANGE PAGES GOES HERE
     // Check where the cursor is pointed
-    if (mouseX > imgX_0 && mouseX < (imgX_0 + imgWidth) && mouseY > imgY_0 && mouseY < (imgY_0 + imgHeight)) {
+    if (cursor_x > imgX_0 && cursor_x < (imgX_0 + imgWidth) && cursor_y > imgY_0 && cursor_y < (imgY_0 + imgHeight)) {
       // NAVIGATE TO IMAGE ZERO (TOP LEFT)
       localStorage.setItem('finalSpace', JSON.stringify(idealspaces[0]))
       // get rid of the backupspaces if they exist
       localStorage.removeItem('backupspaces')
       // open A5/info.html
       window.location.href = 'A5/info.html'
-    } else if (mouseX > imgX_1 && mouseX < (imgX_1 + imgWidth) && mouseY > imgY_1 && mouseY < (imgY_1 + imgHeight)) {
+    } else if (cursor_x > imgX_1 && cursor_x < (imgX_1 + imgWidth) && cursor_y > imgY_1 && cursor_y < (imgY_1 + imgHeight)) {
       // NAVIGATE TO IMAGE ONE (TOP RIGHT)
       localStorage.setItem('finalSpace', JSON.stringify(idealspaces[1]))
       localStorage.removeItem('backupspaces')
       window.location.href = 'A5/info.html'
-    } else if (mouseX > imgX_2 && mouseX < (imgX_2 + imgWidth) && mouseY > imgY_2 && mouseY < (imgY_2 + imgHeight)) {
+    } else if (cursor_x > imgX_2 && cursor_x < (imgX_2 + imgWidth) && cursor_y > imgY_2 && cursor_y < (imgY_2 + imgHeight)) {
       // NAVIGATE TO IMAGE TWO (BOTTOM LEFT)
       localStorage.setItem('finalSpace', JSON.stringify(idealspaces[2]))
       localStorage.removeItem('backupspaces')
       window.location.href = 'A5/info.html'
-    } else if (mouseX > imgX_3 && mouseX < (imgX_3 + imgWidth) && mouseY > imgY_3 && mouseY < (imgY_3 + imgHeight)) {
+    } else if (cursor_x > imgX_3 && cursor_x < (imgX_3 + imgWidth) && cursor_y > imgY_3 && cursor_y < (imgY_3 + imgHeight)) {
       // NAVIGATE TO IMAGE THREE (BOTTOM RIGHT)
       localStorage.setItem('finalSpace', JSON.stringify(idealspaces[3]))
       localStorage.removeItem('backupspaces')
       window.location.href = 'A5/info.html'
-    } else if (mouseX > refreshX && mouseX < (refreshX + refreshWidth) && mouseY > refreshY && mouseY < (refreshY + refreshHeight)) {
+    } else if (cursor_x > refreshX && cursor_x < (refreshX + refreshWidth) && cursor_y > refreshY && cursor_y < (refreshY + refreshHeight)) {
       // REFRESH RESULTS AND DISPLAY NEW ONES
       idealspaces = null
       // set the backupspaces
       localStorage.setItem('backupspaces', JSON.stringify(backupspaces))
       window.location.href = 'results.html'
       // TODO: make sure i'm grabbing top 8 instead of 4
-    } else if (mouseX > redoX && mouseX < (redoX + redoWidth) && mouseY > redoY && mouseY < (redoY + redoHeight)) {
+    } else if (cursor_x > redoX && cursor_x < (redoX + redoWidth) && cursor_y > redoY && cursor_y < (redoY + redoHeight)) {
       localStorage.removeItem('backupspaces')
       // RESTART THE QUIZ FROM BEGINNING
       window.location.href = 'questions.html'
@@ -272,12 +272,12 @@ function updateProgress(imgCoord) {
     timer = false
     counter = 0
   }
-  else if ((mouseX > imgX_0 && mouseX < (imgX_0 + imgWidth) && mouseY > imgY_0 && mouseY < (imgY_0 + imgHeight)) ||
-    (mouseX > imgX_1 && mouseX < (imgX_1 + imgWidth) && mouseY > imgY_1 && mouseY < (imgY_1 + imgHeight)) ||
-    (mouseX > imgX_2 && mouseX < (imgX_2 + imgWidth) && mouseY > imgY_2 && mouseY < (imgY_2 + imgHeight)) ||
-    (mouseX > imgX_3 && mouseX < (imgX_3 + imgWidth) && mouseY > imgY_3 && mouseY < (imgY_3 + imgHeight)) ||
-    (mouseX > refreshX && mouseX < (refreshX + refreshWidth) && mouseY > refreshY && mouseY < (refreshY + refreshHeight)) ||
-    (mouseX > redoX && mouseX < (redoX + redoWidth) && mouseY > redoY && mouseY < (redoY + redoHeight))
+  else if ((cursor_x > imgX_0 && cursor_x < (imgX_0 + imgWidth) && cursor_y > imgY_0 && cursor_y < (imgY_0 + imgHeight)) ||
+    (cursor_x > imgX_1 && cursor_x < (imgX_1 + imgWidth) && cursor_y > imgY_1 && cursor_y < (imgY_1 + imgHeight)) ||
+    (cursor_x > imgX_2 && cursor_x < (imgX_2 + imgWidth) && cursor_y > imgY_2 && cursor_y < (imgY_2 + imgHeight)) ||
+    (cursor_x > imgX_3 && cursor_x < (imgX_3 + imgWidth) && cursor_y > imgY_3 && cursor_y < (imgY_3 + imgHeight)) ||
+    (cursor_x > refreshX && cursor_x < (refreshX + refreshWidth) && cursor_y > refreshY && cursor_y < (refreshY + refreshHeight)) ||
+    (cursor_x > redoX && cursor_x < (redoX + redoWidth) && cursor_y > redoY && cursor_y < (redoY + redoHeight))
   ) {
     if (!timer) {
       myInterval = setInterval(function () {

@@ -49,9 +49,6 @@ var twod = {
   }
 };
 
-// DECLARE VARIABLES
-// let mouseX = 0, mouseY = 0  // cursor tracks the left wrist of the person on the Kinect
-
 // settings of the start button
 let startX, startY
 let startWidth = 250, startHeight = 80
@@ -109,10 +106,10 @@ function draw() {
   stroke(255);
   c = color('red')
   fill(c);
-  arc(mouseX, mouseY, 80, 80, 0, (counter / 5) * QUARTER_PI);
+  arc(cursor_x, cursor_y, 80, 80, 0, (counter / 5) * QUARTER_PI);
   c = color('black')
   fill(c)
-  ellipse(mouseX, mouseY, 50, 50)
+  ellipse(cursor_x, cursor_y, 50, 50)
 }
 
 function updateProgress() {
@@ -125,7 +122,7 @@ function updateProgress() {
 
     // change pages
     window.location.href = 'questions.html'
-  } else if (mouseX > startX && mouseX < (startX + startWidth) && mouseY > startY && mouseY < (startY + startHeight)) {
+  } else if (cursor_x > startX && cursor_x < (startX + startWidth) && cursor_y > startY && cursor_y < (startY + startHeight)) {
     if (!timer) {
       myInterval = setInterval(function () {
         counter++;
