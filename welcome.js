@@ -106,7 +106,6 @@ function draw() {
   text('Start', windowWidth / 2, windowHeight * 5 / 7)
 
   // Draw progress cursor
-  console.log(mouseX)
   stroke(255);
   c = color('red')
   fill(c);
