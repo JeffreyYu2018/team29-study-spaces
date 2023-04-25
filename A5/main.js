@@ -30,8 +30,8 @@ var frames = {
         let min_z_pos = Infinity
         let body_id_index
         for (let b = 0; b < frame.people.length; b++) {
-          if (frame.people[b].z_pos < min_z_pos) {
-            min_z_pos = frame.people[b].z_pos
+          if (frame.people[b].joints[7].position.z < min_z_pos) {
+            min_z_pos = frame.people[b].joints[7].position.z
             body_id = frame.people[b].body_id
             body_id_index = b
           }
