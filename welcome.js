@@ -40,8 +40,8 @@ var frames = {
         var left_wrist_x = (frame.people[body_id_index].joints[7].position.x - pelvis_x) * -1;
         var left_wrist_y = (frame.people[body_id_index].joints[7].position.y - pelvis_y) * -1;
   
-        cursor_x = (1.5*left_wrist_x) + windowWidth/2
-        cursor_y = windowHeight - (1.5*left_wrist_y)
+        cursor_x = (((1.5*left_wrist_x) + windowWidth/2) + cursor_x)/2
+        cursor_y = ((windowHeight - (1.5*left_wrist_y)) + cursor_y) / 2
 
       } else {
         // check if the body_id is still there
@@ -62,8 +62,8 @@ var frames = {
           var left_wrist_x = (frame.people[body_id_index].joints[7].position.x - pelvis_x) * -1;
           var left_wrist_y = (frame.people[body_id_index].joints[7].position.y - pelvis_y) * -1;
 
-          cursor_x = (1.5*left_wrist_x) + windowWidth/2
-          cursor_y = windowHeight - (1.5*left_wrist_y)
+          cursor_x = (((1.5*left_wrist_x) + windowWidth/2) + cursor_x)/2
+          cursor_y = ((windowHeight - (1.5*left_wrist_y)) + cursor_y) / 2
         }
       }
     }
