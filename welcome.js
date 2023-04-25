@@ -51,6 +51,7 @@ var frames = {
           if (frame.people[b].body_id === body_id) {
             body_id = frame.people[b].body_id
             body_id_index = b
+            break;
           }
         }
         // is the person still there? if not, reset the loop and exist
