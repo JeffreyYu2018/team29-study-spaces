@@ -25,12 +25,12 @@ var frames = {
       console.log("no people in frame")
     } else {
       if (body_id === undefined) {  // no body currently selected
-        // grab body_id from person with lowest y_pos value
-        let min_y_pos = Infinity
+        // grab body_id from person with lowest z_pos value
+        let min_z_pos = Infinity
         let body_id_index
         for (let b = 0; b < frame.people.length; b++) {
-          if (frame.people[b].y_pos < min_y_pos) {
-            min_y_pos = frame.people[b].y_pos
+          if (frame.people[b].z_pos < min_z_pos) {
+            min_z_pos = frame.people[b]._pos
             body_id = frame.people[b].body_id
             body_id_index = b
           }
